@@ -1,0 +1,8 @@
+{
+  "descripcion": "SYNTHETIC. Orden ASAP: se pide, se cierra (READY) y se recoge. Con dev:mock (OCB_PICKED_UP_HIDE_AFTER_MIN=1) desaparece del board un minuto despues del ultimo paso.",
+  "pasos": [
+    { "evento": "OrderPlaced", "fixture": "OrderPlaced.json" },
+    { "evento": "OrderClosed", "fixture": "OrderClosed.json", "esperarMs": 3000 },
+    { "evento": "OrderPickedUp", "fixture": "OrderPickedUp.json", "esperarMs": 3000 }
+  ]
+}

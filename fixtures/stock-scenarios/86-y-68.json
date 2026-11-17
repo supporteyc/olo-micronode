@@ -1,0 +1,7 @@
+{
+  "descripcion": "SYNTHETIC. Double Burger y Salad se 86ean y despues vuelven (68).",
+  "pasos": [
+    { "evento": "MenuItemAvailabilityChanged", "fixture": "../stock-scenarios/86-double-burger-y-salad.json" },
+    { "evento": "MenuItemAvailabilityChanged", "fixture": "../stock-scenarios/68-double-burger-y-salad.json", "esperarMs": 5000 }
+  ]
+}

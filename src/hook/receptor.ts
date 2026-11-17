@@ -47,10 +47,12 @@ export class HttpForwarder implements EventForwarder {
             });
             const texto = await r.text();
             if (r.ok) return { ok: true, status: r.status, reintentable: false };
-            // 400 = el node no puede con ese cuerpo; reintentar no lo arregla.
-            // 401 se reintenta: es una llave mal configurada y se arregla sin
-            // perder eventos.
-            const reintentable = r.status !== 400 && r.status !== 404 && r.status !== 413;
+            // Solo 400 y 413 se descartan: el node dijo que ese cuerpo no tiene
+            // arreglo. Todo lo demas se reintenta, 401 y 404 incluidos: una
+            // llave mal puesta, una baseUrl que apunta a otro servidor o un
+            // deploy a medias se arreglan sin perder eventos. (Un 404 descartaba
+            // eventos en dev:mock cuando el puerto lo tenia otro servidor.)
+            const reintentable = r.status !== 400 && r.status !== 413;
             return { ok: false, status: r.status, reintentable, error: `HTTP ${r.status}: ${texto.substring(0, 200)}` };
         } catch (e: any) {
             return { ok: false, status: 0, reintentable: true, error: e.message };

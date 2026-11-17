@@ -1,0 +1,7 @@
+{
+  "descripcion": "SYNTHETIC. Orden que se pide y se cancela: sale del board de inmediato.",
+  "pasos": [
+    { "evento": "OrderPlaced", "fixture": "OrderPlaced.json" },
+    { "evento": "OrderCancelled", "fixture": "OrderCancelled.json", "esperarMs": 2000 }
+  ]
+}

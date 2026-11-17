@@ -170,6 +170,23 @@ describe('receptor de webhooks', () => {
         expect(outbox.metricas(0).pendientes).toBe(0);
     });
 
+    test('un 404 del node se reintenta: puede ser una baseUrl que apunta a otro servidor', async () => {
+        silencio();
+        const { receptor, forwarder, outbox, avanzar } = armar();
+        forwarder.entregar = async (ruta, p) => {
+            forwarder.entregas.push({ storeId: ruta.storeId, p });
+            return forwarder.entregas.length === 1
+                ? { ok: false, status: 404, reintentable: true, error: 'HTTP 404' }
+                : { ok: true, status: 200, reintentable: false };
+        };
+        await receptor.manejar(peticion('OrderPlaced', orden(TIENDA_A)));
+        await receptor.entregarPendientes();
+        avanzar(1_000);
+        await receptor.entregarPendientes();
+        expect(forwarder.entregas).toHaveLength(2);
+        expect(outbox.metricas(0).descartados).toBe(0);
+    });
+
     test('un 400 del node se descarta (reintentar no lo arregla) y no bloquea la cola', async () => {
         silencio();
         const { receptor, forwarder, outbox } = armar();

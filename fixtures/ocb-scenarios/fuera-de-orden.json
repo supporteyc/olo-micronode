@@ -1,0 +1,7 @@
+{
+  "descripcion": "SYNTHETIC. La recogida llega antes que el pedido. El estado nunca baja: la orden queda READY y se retira sola.",
+  "pasos": [
+    { "evento": "OrderPickedUp", "fixture": "OrderPickedUp.json" },
+    { "evento": "OrderPlaced", "fixture": "OrderPlaced.json", "esperarMs": 1000 }
+  ]
+}

@@ -42,7 +42,7 @@ export class MenuItemService {
             console.error(
                 `🛑 Borrado masivo CANCELADO: ${ausentes.length} de ${existentes.size} ítems ` +
                 `(${pct}%) supera el límite de ${Math.round(MAX_DELETE_RATIO * 100)}%. ` +
-                `Probable Vendor Export incompleto — no se toca el menú, revisar antes de continuar.`
+                `Probable Vendor Export incompleto - no se toca el menú, revisar antes de continuar.`
             );
             return { borradas: [], frenado: true };
         }

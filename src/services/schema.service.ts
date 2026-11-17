@@ -10,7 +10,7 @@ const CARPETA = 'sql';
  * Solo se aplican solas las sentencias que no pueden romper nada.
  *
  * Es la regla que hace aceptable correr DDL en cada arranque: si alguien agrega
- * un DROP o un ALTER destructivo a sql/, no se ejecuta solo — se avisa y se
+ * un DROP o un ALTER destructivo a sql/, no se ejecuta solo - se avisa y se
  * espera a que lo corra una persona con scripts/apply-sql.ts.
  */
 const PERMITIDAS = /^CREATE\s+(TABLE|INDEX)\s+IF\s+NOT\s+EXISTS\b/i;
@@ -36,7 +36,7 @@ function sentencias(sql: string): string[] {
  *
  * Se hace solo porque cada location tiene su propia base: con un paso manual,
  * dar de alta un cliente nuevo significa acordarse de correr un script contra
- * una base distinta, y olvidarse no rompe nada visible — el sync sigue andando
+ * una base distinta, y olvidarse no rompe nada visible - el sync sigue andando
  * y el historial simplemente no se guarda. Ese es el peor tipo de error.
  *
  * Nunca tumba el arranque: si la base no deja crear, se avisa y el servicio

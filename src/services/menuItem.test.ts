@@ -5,7 +5,7 @@ import { hayQueFrenar } from './menuItem.service';
  * El freno de borrado, con los valores por defecto: 50% y 10 filas minimas.
  *
  * Estos tests importan mas que la mayoria. Un item ausente ya no se marca
- * inactivo, se borra — y un borrado equivocado no se deshace solo en el ciclo
+ * inactivo, se borra - y un borrado equivocado no se deshace solo en el ciclo
  * siguiente. Este freno es lo unico que separa una respuesta a medias de Toast
  * de un menu vaciado en la pantalla de un restaurante.
  */

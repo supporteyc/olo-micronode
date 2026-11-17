@@ -9,7 +9,7 @@
 -- que es exactamente lo que el cliente de Prisma espera encontrar.
 --
 -- Todo va con IF NOT EXISTS: sobre una base que ya venia de Flyway no toca nada.
--- flyway_schema_history no se crea a proposito — la declara el schema para que
+-- flyway_schema_history no se crea a proposito - la declara el schema para que
 -- `prisma db pull` no la marque como desconocida, pero el codigo nunca la usa.
 
 -- Espejo de V4__create_menu_items.sql + V5__add_menu_number.sql

@@ -176,7 +176,7 @@ export class MenuSyncService {
             run.soldOutItems = fusion.agotados;
             console.log(`↳ 📦 86: ${ochenta.entradas} entradas | ${fusion.agotados} ítems agotados`);
         } else {
-            console.warn("⚠️ Sin linea base de 86 en este ciclo — se conserva el stock que ya tiene la DB.");
+            console.warn("⚠️ Sin linea base de 86 en este ciclo - se conserva el stock que ya tiene la DB.");
         }
 
         console.log("📥 PASO 1/2 completado.");
@@ -286,7 +286,7 @@ export class MenuSyncService {
 
                 if (!ochenta) {
                     // Nunca se interpreta un fallo como "nada esta agotado".
-                    console.warn("⚠️ Linea base caida — no se toca ningún in_stock.");
+                    console.warn("⚠️ Linea base caida - no se toca ningún in_stock.");
                     run.reason = "SIN_CAMBIOS";
                     run.errorMessage = "eightysixeditems no respondio; stock conservado";
                     run.soldOutItems = [...existentes.values()].filter(i => i.in_stock === false && i.is_active === true).length;

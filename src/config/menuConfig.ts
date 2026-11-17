@@ -1,5 +1,5 @@
 /**
- * MENU_CONFIG — el filtro que decide QUÉ del menú de Toast llega al menú digital.
+ * MENU_CONFIG - el filtro que decide QUÉ del menú de Toast llega al menú digital.
  *
  * El menú que Toast devuelve para un cliente es enorme y anidado. Este mapa dice,
  * por nombre de grupo, cuál de esos grupos entra y bajo qué número de menú. Un
@@ -73,7 +73,7 @@ function leerConfigEntries(): ConfigEntry[] {
 
     } catch (e: any) {
         // No se recurre al default: aplicar el filtro de otra tienda dejaria pasar
-        // grupos ajenos. Mejor vacio — el ciclo aborta solo antes de tocar el menu.
+        // grupos ajenos. Mejor vacio - el ciclo aborta solo antes de tocar el menu.
         console.error(
             `MENU_CONFIG esta mal escrito (${e.message}). No se aplicara ningun filtro y el ` +
             `sync abortara en cada ciclo hasta corregirlo. Formato: [["Grupo",1,true,true], ...]`
@@ -116,7 +116,7 @@ export function getMenuConfig(groupName: string | null | undefined): MenuConfigO
     return CATEGORY_TO_MENU_NUMBER.get(normalizeMenuConfigKey(groupName)) ?? null;
 }
 
-/** Cuántos grupos hay configurados — se loguea al arrancar para detectar un config vacío. */
+/** Cuántos grupos hay configurados - se loguea al arrancar para detectar un config vacío. */
 export function menuConfigSize(): number {
     return CATEGORY_TO_MENU_NUMBER.size;
 }

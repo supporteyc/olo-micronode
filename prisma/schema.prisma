@@ -46,7 +46,7 @@ model menu_items {
   @@index([updated_at], map: "idx_updated_at")
 }
 
-/// sql/001_create_menu_item_changes.sql — se aplica a mano, no con prisma migrate:
+/// sql/001_create_menu_item_changes.sql - se aplica a mano, no con prisma migrate:
 /// esta base la administra Flyway desde el servidor Java.
 model menu_item_changes {
   id          BigInt   @id @default(autoincrement())
@@ -136,7 +136,7 @@ model flyway_schema_history {
   @@index([success], map: "flyway_schema_history_s_idx")
 }
 
-/// sql/002_create_sync_runs.sql — se aplica a mano con scripts/apply-sql.ts.
+/// sql/002_create_sync_runs.sql - se aplica a mano con scripts/apply-sql.ts.
 ///
 /// menu_item_changes guarda QUE cambio; esta guarda que paso con el CICLO.
 /// Es lo que sobrevive al reinicio cuando logMemory no.
@@ -163,7 +163,7 @@ model sync_runs {
   @@index([status], map: "idx_sync_runs_status")
 }
 
-/// sql/004_create_olo_tables.sql — idempotencia de webhooks de Olo.
+/// sql/004_create_olo_tables.sql - idempotencia de webhooks de Olo.
 model olo_webhook_events {
   message_id  String   @id @db.VarChar(64)
   event_type  String   @db.VarChar(64)
@@ -176,7 +176,7 @@ model olo_webhook_events {
   @@index([received_at], map: "idx_olo_events_received")
 }
 
-/// sql/004_create_olo_tables.sql — estado interno de cada orden del OCB.
+/// sql/004_create_olo_tables.sql - estado interno de cada orden del OCB.
 model ocb_olo_state {
   order_guid       String    @id @db.VarChar(255)
   state            String    @db.VarChar(20)
@@ -201,7 +201,7 @@ model ocb_olo_state {
   @@index([order_id_string], map: "idx_ocb_olo_state_order_id")
 }
 
-/// sql/004_create_olo_tables.sql — deltas para items que aun no existen.
+/// sql/004_create_olo_tables.sql - deltas para items que aun no existen.
 model olo_pending_availability {
   pos_id      String   @id @db.VarChar(255)
   in_stock    Boolean

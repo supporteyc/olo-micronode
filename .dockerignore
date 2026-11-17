@@ -19,3 +19,6 @@ node_modules
 
 # Los tests no corren en produccion.
 **/*.test.ts
+
+# Outbox local del receptor: en produccion vive en un volumen, nunca en la imagen.
+.data

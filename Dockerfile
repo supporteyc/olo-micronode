@@ -1,4 +1,4 @@
-# Es la misma imagen que oven/bun:1-alpine —mismo digest— pero servida por el
+# Es la misma imagen que oven/bun:1-alpine -mismo digest- pero servida por el
 # cache publico de Google en vez de Docker Hub.
 #
 # Docker Hub limita las descargas anonimas por IP, y la IP del builder de Zeabur

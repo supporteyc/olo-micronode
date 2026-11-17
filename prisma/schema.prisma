@@ -1,0 +1,209 @@
+generator client {
+  provider = "prisma-client-js"
+
+  // Explicito a proposito: la deteccion automatica de OpenSSL ya fallo una vez
+  // en Alpine y bajo el motor de OpenSSL 1.1, que no existe en la imagen.
+  //   native                     -> la maquina de desarrollo
+  //   linux-musl-openssl-3.0.x   -> Alpine en el contenedor
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// Espejo de V4__create_menu_items.sql + V5__add_menu_number.sql.
+/// OJO: esta es la tabla menu_items de la base de TOAST, que es distinta de la
+/// menu_items de la base de OnSign aunque se llamen igual. Esta tiene menu_number.
+model menu_items {
+  id                    BigInt    @id @default(autoincrement())
+  pos_id                String    @unique(map: "pos_id") @db.VarChar(255)
+  menu                  String    @db.VarChar(255)
+  item_type             String    @db.VarChar(50)
+  category              String?   @db.VarChar(100)
+  parent_group          String?   @db.VarChar(255)
+  name                  String    @db.VarChar(255)
+  description           String?   @db.Text
+  price                 String?   @db.VarChar(50)
+  in_stock              Boolean?  @default(true)
+  out_of_stock_icon     String?   @db.VarChar(255)
+  sort_order            Int?
+  menu_number           Int?
+  created_at            DateTime? @default(now()) @db.Timestamp(0)
+  updated_at            DateTime? @default(now()) @db.Timestamp(0)
+  last_synced_to_onsign DateTime? @db.Timestamp(0)
+  is_active             Boolean?  @default(true)
+  toast_last_modified   DateTime? @db.Timestamp(0)
+  onsign_row_id         String?   @db.VarChar(50)
+  onsign_version        Int?
+  miss_count            Int       @default(0)
+
+  @@index([category], map: "idx_category")
+  @@index([last_synced_to_onsign], map: "idx_last_synced")
+  @@index([parent_group], map: "idx_parent_group")
+  @@index([pos_id], map: "idx_pos_id")
+  @@index([updated_at], map: "idx_updated_at")
+}
+
+/// sql/001_create_menu_item_changes.sql — se aplica a mano, no con prisma migrate:
+/// esta base la administra Flyway desde el servidor Java.
+model menu_item_changes {
+  id          BigInt   @id @default(autoincrement())
+  pos_id      String   @db.VarChar(255)
+  item_name   String   @db.VarChar(255)
+  change_type String   @db.VarChar(20)
+  field       String   @db.VarChar(50)
+  old_value   String?  @db.Text
+  new_value   String?  @db.Text
+  changed_at  DateTime @default(now()) @db.Timestamp(0)
+
+  @@index([pos_id], map: "idx_menu_changes_pos_id")
+  @@index([changed_at], map: "idx_menu_changes_changed_at")
+  @@index([field], map: "idx_menu_changes_field")
+}
+
+/// V1__create_ocb_tables.sql
+model ocb_orders {
+  id                         BigInt           @id @default(autoincrement())
+  order_guid                 String           @unique(map: "uk_order_guid") @db.VarChar(255)
+  display_number             String           @db.VarChar(50)
+  status                     String           @db.VarChar(50)
+  restaurant_guid            String           @db.VarChar(255)
+  opened_date                DateTime?        @db.DateTime(3)
+  estimated_fulfillment_date DateTime?        @db.DateTime(3)
+  total_amount               Float            @default(0)
+  payment_status             String?          @db.VarChar(50)
+  business_date              Int
+  created_at                 DateTime?        @db.DateTime(3)
+  updated_at                 DateTime?        @db.DateTime(3)
+  items                      ocb_order_items[]
+
+  @@index([restaurant_guid, business_date], map: "idx_ocb_orders_restaurant_date")
+  @@index([restaurant_guid, status], map: "idx_ocb_orders_status")
+  @@index([order_guid], map: "idx_ocb_orders_guid")
+}
+
+/// V1__create_ocb_tables.sql
+model ocb_order_items {
+  id                 BigInt     @id @default(autoincrement())
+  order_id           BigInt
+  name               String     @db.VarChar(500)
+  quantity           Float      @default(1)
+  price              Float      @default(0)
+  fulfillment_status String     @db.VarChar(50)
+  modifiers          String?    @db.VarChar(2000)
+  order              ocb_orders @relation(fields: [order_id], references: [id], onDelete: Cascade, map: "fk_order_items_order")
+
+  @@index([order_id], map: "fk_order_items_order")
+}
+
+/// V2__create_menu_cache_table.sql + V3__add_menu_sort_order.sql
+model ocb_menu_cache_items {
+  id           BigInt   @id @default(autoincrement())
+  item_guid    String   @unique(map: "uk_menu_cache_item_guid") @db.VarChar(255)
+  menu_name    String   @db.VarChar(500)
+  group_name   String   @db.VarChar(500)
+  name         String   @db.VarChar(500)
+  description  String?  @db.Text
+  image        String?  @db.VarChar(1000)
+  price        Float?
+  price_varies Boolean  @default(false)
+  in_stock     Boolean  @default(true)
+  synced_at    DateTime @db.DateTime(3)
+  menu_order   Int      @default(0)
+  group_order  Int      @default(0)
+  item_order   Int      @default(0)
+
+  @@index([menu_name], map: "idx_menu_cache_menu")
+  @@index([group_name], map: "idx_menu_cache_group")
+}
+
+/// Flyway administra el esquema desde el lado Java. Se declara para que
+/// `prisma db pull` no la marque como tabla desconocida.
+model flyway_schema_history {
+  installed_rank Int      @id
+  version        String?  @db.VarChar(50)
+  description    String   @db.VarChar(200)
+  type           String   @db.VarChar(20)
+  script         String   @db.VarChar(1000)
+  checksum       Int?
+  installed_by   String   @db.VarChar(100)
+  installed_on   DateTime @default(now()) @db.Timestamp(0)
+  execution_time Int
+  success        Boolean
+
+  @@index([success], map: "flyway_schema_history_s_idx")
+}
+
+/// sql/002_create_sync_runs.sql — se aplica a mano con scripts/apply-sql.ts.
+///
+/// menu_item_changes guarda QUE cambio; esta guarda que paso con el CICLO.
+/// Es lo que sobrevive al reinicio cuando logMemory no.
+model sync_runs {
+  id              BigInt    @id @default(autoincrement())
+  started_at      DateTime  @default(now()) @db.Timestamp(3)
+  finished_at     DateTime? @db.Timestamp(3)
+  duration_ms     Int?
+  status          String    @default("ok") @db.VarChar(20)
+  trigger_source  String    @default("scheduler") @db.VarChar(20)
+  reason          String?   @db.VarChar(60)
+  source_items    Int       @default(0)
+  /// NULL = no se pudo consultar el inventario en ese ciclo.
+  inventory_guids Int?
+  sold_out_items  Int       @default(0)
+  db_created      Int       @default(0)
+  db_updated      Int       @default(0)
+  db_deleted      Int       @default(0)
+  db_unchanged    Int       @default(0)
+  changes_logged  Int       @default(0)
+  error_message   String?   @db.Text
+
+  @@index([started_at], map: "idx_sync_runs_started")
+  @@index([status], map: "idx_sync_runs_status")
+}
+
+/// sql/004_create_olo_tables.sql — idempotencia de webhooks de Olo.
+model olo_webhook_events {
+  message_id  String   @id @db.VarChar(64)
+  event_type  String   @db.VarChar(64)
+  entity_key  String?  @db.VarChar(64)
+  received_at DateTime @default(now()) @db.Timestamp(3)
+  applied     Boolean  @default(true)
+  note        String?  @db.VarChar(255)
+
+  @@index([entity_key], map: "idx_olo_events_entity")
+  @@index([received_at], map: "idx_olo_events_received")
+}
+
+/// sql/004_create_olo_tables.sql — estado interno de cada orden del OCB.
+model ocb_olo_state {
+  order_guid       String    @id @db.VarChar(255)
+  state            String    @db.VarChar(20)
+  state_rank       Int       @db.TinyInt
+  order_id_string  String?   @db.VarChar(64)
+  vendor_id_string String?   @db.VarChar(64)
+  pos_ref          String?   @db.VarChar(64)
+  time_wanted      DateTime? @db.DateTime(3)
+  visible_since    DateTime? @db.DateTime(3)
+  closed_at        DateTime? @db.DateTime(3)
+  arrived_at       DateTime? @db.DateTime(3)
+  picked_up_at     DateTime? @db.DateTime(3)
+  cancelled_at     DateTime? @db.DateTime(3)
+  hide_at          DateTime? @db.DateTime(3)
+  expire_at        DateTime? @db.DateTime(3)
+  replaces_guid    String?   @db.VarChar(255)
+  replaced_by_guid String?   @db.VarChar(255)
+  board_snapshot   String?   @db.Text
+  updated_at       DateTime  @db.DateTime(3)
+
+  @@index([state, hide_at, expire_at], map: "idx_ocb_olo_state_barrido")
+  @@index([order_id_string], map: "idx_ocb_olo_state_order_id")
+}
+
+/// sql/004_create_olo_tables.sql — deltas para items que aun no existen.
+model olo_pending_availability {
+  pos_id      String   @id @db.VarChar(255)
+  in_stock    Boolean
+  received_at DateTime @default(now()) @db.Timestamp(3)
+}

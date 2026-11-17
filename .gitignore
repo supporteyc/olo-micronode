@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.env.local
+*.log
+.DS_Store
+
+# Outbox y dedup del receptor (bun:sqlite)
+.data/
+*.sqlite
+*.sqlite-*

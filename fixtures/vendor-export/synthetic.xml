@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SYNTHETIC. Fixture armado a mano, NO es un export real de Olo.
+  No tenemos el XSD del Vendor Export [PEDIR-A-ANDRES]: los nombres de campo
+  salen de la documentacion (category, product, chainproductid, pricing,
+  optiongroups, options, chainoptionid, cost) y la forma es una suposicion.
+  Ids de 17 digitos a proposito: superan Number.MAX_SAFE_INTEGER.
+
+  Contenido:
+    Burgers  -> P1 Classic Burger (con optiongroup "Choose a Side": O1 Fries, O2 Salad)
+             -> P2 Double Burger (mismo optiongroup: O1 y O2 no se repiten)
+    Drinks   -> P3 Lemonade (con availability de horario: NO es un 86)
+    Secret   -> P4 Off Menu (categoria fuera de MENU_CONFIG: no se exporta)
+  P1 trae isdisabled="true": deprecado, no decide stock.
+  O1 tiene un optiongroup anidado "Fries Size" (solo con OLO_MODIFIER_DEPTH >= 2).
+-->
+<menuexport>
+  <brands>
+    <brand id="20000000000000001" name="Synthetic Brand">
+      <vendors>
+        <vendor id="10000000000000001" name="Synthetic Store">
+          <menu>
+            <categories>
+              <category id="30000000000000001" name="Burgers">
+                <products>
+                  <product id="90000000000000011" chainproductid="80000000000000011" name="Classic Burger" description="Beef, cheese, pickles" cost="12.5" isdisabled="true">
+                    <pricing>
+                      <price amount="12.50"/>
+                      <price handoffmode="delivery" amount="13.75"/>
+                    </pricing>
+                    <optiongroups>
+                      <optiongroup id="40000000000000001" name="Choose a Side">
+                        <options>
+                          <option id="90000000000000021" chainoptionid="70000000000000021" name="Fries" cost="0">
+                            <optiongroups>
+                              <optiongroup id="40000000000000002" name="Fries Size">
+                                <options>
+                                  <option id="90000000000000031" chainoptionid="70000000000000031" name="Large Fries" cost="1.5"/>
+                                </options>
+                              </optiongroup>
+                            </optiongroups>
+                          </option>
+                          <option id="90000000000000022" chainoptionid="70000000000000022" name="Salad" cost="1"/>
+                        </options>
+                      </optiongroup>
+                    </optiongroups>
+                  </product>
+                  <product id="90000000000000012" chainproductid="80000000000000012" name="Double Burger" description="Two patties" cost="15">
+                    <pricing>
+                      <price amount="15.00"/>
+                    </pricing>
+                    <optiongroups>
+                      <optiongroup id="40000000000000001" name="Choose a Side">
+                        <options>
+                          <option id="90000000000000021" chainoptionid="70000000000000021" name="Fries" cost="0"/>
+                          <option id="90000000000000022" chainoptionid="70000000000000022" name="Salad" cost="1"/>
+                        </options>
+                      </optiongroup>
+                    </optiongroups>
+                  </product>
+                </products>
+              </category>
+              <category id="30000000000000002" name="Drinks">
+                <products>
+                  <product id="90000000000000013" chainproductid="80000000000000013" name="Lemonade" description="" cost="3.25" availability="scheduled" times="06:00-11:00" startdate="20260101" enddate="20301231"/>
+                </products>
+              </category>
+              <category id="30000000000000003" name="Secret">
+                <products>
+                  <product id="90000000000000014" chainproductid="80000000000000014" name="Off Menu" cost="99"/>
+                </products>
+              </category>
+            </categories>
+          </menu>
+        </vendor>
+      </vendors>
+    </brand>
+  </brands>
+</menuexport>

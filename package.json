@@ -1,0 +1,34 @@
+{
+  "name": "ec4olo-node",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "private": true,
+  "description": "Puente Olo -> menu_items y OCB. Gemelo de ec4toast-node con Olo como fuente de datos.",
+  "license": "ISC",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "start": "bun run src/index.ts",
+    "start:hook": "bun run src/hook.ts",
+    "mock:olo": "bun run tools/mock-olo/server.ts",
+    "replay": "bun run tools/replay/replay.ts",
+    "dev:mock": "bun run scripts/dev-mock.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "fast-xml-parser": "^4.5.0",
+    "fflate": "^0.8.2"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.2.0",
+    "prisma": "^5.22.0",
+    "typescript": "^5.9.2"
+  }
+}

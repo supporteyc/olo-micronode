@@ -1,0 +1,21 @@
+# Lo que NO entra en la imagen.
+#
+# Ojo con lo que se saca: sql/ y prisma/ se leen en tiempo de ejecucion
+# (asegurarEsquema() lee sql/*.sql al arrancar), asi que tienen que quedar.
+
+# Variables locales. .env.test sobre todo: Bun lo carga solo con NODE_ENV=test,
+# pero si algo llegara a poner esa variable en el servidor, el filtro del menu
+# pasaria a ser el de los tests sin que nada avise. Fuera de la imagen no puede.
+.env
+.env.local
+.env.test
+
+# Se instala dentro del build con bun install --frozen-lockfile.
+node_modules
+
+# El historial no aporta nada al runtime y hace pesado el contexto.
+.git
+.gitignore
+
+# Los tests no corren en produccion.
+**/*.test.ts

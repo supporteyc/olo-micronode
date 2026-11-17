@@ -1,6 +1,6 @@
 # Revision del prompt y decisiones de implementacion
 
-Este documento compara `prompt-agente-opus-olo.md` con el codigo real de ec4toast-node y lista lo que se cambio al implementarlo. Donde el prompt y el codigo no coinciden, **manda el codigo**: el contrato es lo que hoy consumen OnSign y ec4-console, no lo que dice el prompt.
+Este documento compara el prompt original del proyecto (interno, no esta en el repo) con el codigo real de ec4toast-node y lista lo que se cambio al implementarlo. Donde el prompt y el codigo no coinciden, **manda el codigo**: el contrato es lo que hoy consumen OnSign y ec4-console, no lo que dice el prompt.
 
 ## 1. Errores del prompt frente al codigo de ec4toast-node
 

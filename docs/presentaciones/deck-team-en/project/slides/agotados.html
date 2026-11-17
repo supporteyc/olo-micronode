@@ -1,0 +1,14 @@
+<section id="agotados">
+<div class="head">
+<p class="eyebrow">Out of stock: 86 and 68</p>
+<h2>Three paths that update stock</h2>
+</div>
+<div class="cards">
+<div class="card"><p class="tag hot">Seconds</p><h3>Webhook</h3><p class="small muted">The store 86s something and Olo tells us right away. Applied in a single transaction, even for 300 items.</p></div>
+<div class="card"><p class="tag">Every 10 min</p><h3>Check</h3><p class="small muted">We ask Olo for the full 86 list and fix whatever differs. Repairs lost webhooks.</p></div>
+<div class="card"><p class="tag ok">On menu change</p><h3>Import</h3><p class="small muted">Vendor Export on startup, when Olo notifies us and once a day. Always followed by the check.</p></div>
+</div>
+<p class="small"><b>Golden rule:</b> if Olo fails, we don’t touch stock. An error is never read as “nothing is out of stock”.</p>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>All three paths go through the same queued lock, so one never steps on another. This was an improvement over the original design: without the lock, an 86 that came in by webhook while a check was running could get lost. Two more things: dayparts like breakfast are not 86s and never change stock. And if the store goes offline in Olo, we show it in the console, but we don’t mark the whole menu as out of stock.</aside>
+</section>

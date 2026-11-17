@@ -6,6 +6,7 @@ Fuentes de las presentaciones y la página de preguntas sobre Olo. Las versiones
 |---|---|---|
 | Preguntas para Olo (página) | `preguntas-olo.html` | https://claude.ai/artifact/MFa8hEASrE2fgmc6b6Qj4t |
 | Presentación para el team (técnica) | `deck-team/` | https://claude.ai/artifact/8NuvAnasLT3SG75PYbJTKe |
+| Presentación para el team (técnica, inglés) | `deck-team-en/` | https://claude.ai/artifact/TkBW9vUJkzEq8brr1fHveJ |
 | Presentación para CEO y director de ops | `deck-ceo/` | https://claude.ai/artifact/X71VbceTLHhdhKxyHPkkHi |
 | Presentación para CEO y director de ops (inglés) | `deck-ceo-en/` | https://claude.ai/artifact/X5SqRx4xPhZ7QUN6Wpa2ko |
 

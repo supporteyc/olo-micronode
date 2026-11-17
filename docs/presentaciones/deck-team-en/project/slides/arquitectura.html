@@ -1,0 +1,18 @@
+<section id="arquitectura" class="dark">
+<div class="head">
+<p class="eyebrow">Architecture</p>
+<h2>One new piece: the central receiver</h2>
+</div>
+<div class="flow" style="margin-top:24px">
+<div class="node"><p class="node-t">Olo</p><p class="node-s">Sends webhooks: 86s, orders, menu changes.</p></div>
+<x-connector></x-connector>
+<div class="node main"><p class="node-t">ec4olo-hook</p><p class="node-s">Just one. Checks the signature, stores and routes.</p></div>
+<x-connector></x-connector>
+<div class="node main"><p class="node-t">ec4olo-node</p><p class="node-s">One per store, with its own MySQL. Checks Olo every so often.</p></div>
+<x-connector></x-connector>
+<div class="node"><p class="node-t">OnSign and console</p><p class="node-s">Read the same as today, through /api/toast/.</p></div>
+</div>
+<p class="small muted" style="max-width:1400px">Why the receiver? Olo allows a single webhook URL per brand, not one per store. The receiver takes it and hands each store what belongs to it.</p>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>Left to right: Olo sends events to the receiver. The receiver is thin, with no business logic: it checks the event really comes from Olo, writes it to disk and only then responds, and after that passes it to the right store. Each store runs its own ec4olo-node with its own database, which also checks Olo every 10 minutes to verify the 86s. OnSign and the console read from the store exactly like today.</aside>
+</section>

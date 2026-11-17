@@ -1,0 +1,15 @@
+<section id="pruebas" class="dark">
+<div class="head">
+<p class="eyebrow">How we tested it</p>
+<h2>No Olo account, a fake Olo instead</h2>
+</div>
+<div class="stats">
+<div class="stat"><p class="stat-n">144</p><p class="stat-l">passing tests, in strict TypeScript</p></div>
+<div class="stat"><p class="stat-n">18</p><p class="stat-l">out-of-stock criteria, one per test</p></div>
+<div class="stat"><p class="stat-n">4</p><p class="stat-l">bugs found and fixed while testing</p></div>
+</div>
+<p class="small muted" style="max-width:1500px">The mock checks the full signature, like Olo does. Tested end to end: an order shows up and leaves the board, and an 86 reaches menu-export.</p>
+<p class="code">bun run dev:mock</p>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>The four bugs: the receiver dropped events on a 404, which we found because another server was holding port 8080 on my machine; status failed when serializing ids from the database; the first cycle after an import called Olo more than needed; and an order that replaces another one stayed hidden. With a single command, dev:mock, you can bring everything up on your machine with no credentials or database. If there’s time, live demo here.</aside>
+</section>

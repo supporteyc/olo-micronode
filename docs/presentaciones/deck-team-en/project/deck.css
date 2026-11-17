@@ -1,0 +1,134 @@
+/* EyeCatch Networks: navy y lavanda de los decks, morado de marca, naranja para llamados. */
+:root {
+  --navy-900: #161426;
+  --navy-800: #252141;
+  --navy-700: #35305e;
+  --lavender-50: #f0f2fe;
+  --eye-purple: #80267e;
+  --eye-teal: #5caca3;
+  --eye-orange: #e6a05a;
+  --signal-orange: #ff6229;
+  --ink-900: #262626;
+  --muted: #5b5872;
+  --paper: #f7f7fc;
+  --card: #fdfdff;
+  --line: #d9dbe8;
+  --on-dark: #f3f2fa;
+  --on-dark-muted: #b9b5d6;
+  --brand-dark: #c58bbf;
+  --on-purple: #fbf7fb;
+}
+
+body { font-family: Montserrat, Arial, sans-serif; }
+
+section {
+  counter-increment: page;
+  box-sizing: border-box;
+  padding: 128px 128px 160px;
+  background: var(--paper);
+  color: var(--ink-900);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+section.dark { background: var(--navy-900); color: var(--on-dark); }
+section.purple { background: var(--eye-purple); color: var(--on-purple); }
+
+.eyebrow { font-size: 24px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--eye-purple); }
+.dark .eyebrow { color: var(--brand-dark); }
+.purple .eyebrow { color: var(--on-purple); }
+
+.head { display: flex; flex-direction: column; gap: 16px; }
+h1 { font-size: 104px; font-weight: 700; line-height: 1.05; }
+h2 { font-size: 64px; font-weight: 700; line-height: 1.1; }
+h3 { font-size: 36px; font-weight: 700; line-height: 1.2; }
+p { font-size: 32px; line-height: 1.4; }
+.lead { font-size: 40px; line-height: 1.35; }
+.small { font-size: 26px; line-height: 1.4; }
+.muted { color: var(--muted); }
+.dark .muted { color: var(--on-dark-muted); }
+.accent { color: var(--eye-purple); }
+.dark .accent { color: var(--brand-dark); }
+
+/* Pie: numero de pagina y sitio, una fila fija */
+.foot {
+  position: absolute; left: 128px; bottom: 64px; width: 1664px;
+  display: flex; justify-content: space-between;
+}
+.foot-t { font-size: 24px; color: var(--muted); }
+.dark .foot-t { color: var(--on-dark-muted); }
+.purple .foot-t { color: var(--on-purple); }
+.foot-n { font-size: 24px; color: var(--muted); }
+.dark .foot-n { color: var(--on-dark-muted); }
+.purple .foot-n { color: var(--on-purple); }
+.foot-n::after { content: counter(page); }
+
+/* Tarjetas */
+.cards { display: flex; gap: 32px; }
+.card {
+  flex: 1; display: flex; flex-direction: column; gap: 16px;
+  background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 40px;
+}
+.dark .card { background: var(--navy-800); border-color: var(--navy-700); }
+.tag {
+  align-self: flex-start; font-size: 24px; font-weight: 700; padding: 6px 16px; border-radius: 8px;
+  background: var(--lavender-50); color: var(--eye-purple);
+}
+.dark .tag { background: var(--navy-700); color: var(--on-dark); }
+.tag.hot { background: var(--signal-orange); color: var(--navy-900); }
+.tag.ok { background: var(--eye-teal); color: var(--navy-900); }
+
+/* Tablas */
+table { width: 100%; font-size: 28px; color: var(--ink-900); }
+.dark table { color: var(--on-dark); }
+tr.top { background: var(--lavender-50); }
+.dark tr.top { background: var(--navy-800); }
+
+/* Diagrama de flujo */
+.flow { display: flex; align-items: center; gap: 16px; }
+.node {
+  flex: 1; display: flex; flex-direction: column; gap: 12px;
+  border-radius: 16px; padding: 32px; border: 2px solid var(--navy-700); background: var(--navy-800);
+}
+.node.main { background: var(--eye-purple); border-color: var(--eye-purple); }
+.node-t { font-size: 32px; font-weight: 700; color: var(--on-dark); }
+.node-s { font-size: 24px; line-height: 1.35; color: var(--on-dark-muted); }
+.node.main .node-s { color: var(--on-purple); }
+x-connector { width: 56px; height: 0; color: var(--brand-dark); border-width: 4px; }
+.light x-connector { color: var(--eye-purple); }
+
+/* Pasos del OCB */
+.step {
+  flex: 1; display: flex; flex-direction: column; gap: 12px;
+  background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 32px;
+}
+.step-e { font-size: 24px; font-weight: 600; color: var(--muted); }
+.step-t { font-size: 36px; font-weight: 700; color: var(--ink-900); }
+.step-s { font-size: 26px; line-height: 1.35; color: var(--ink-900); }
+
+/* Cifras */
+.stats { display: flex; gap: 32px; }
+.stat { flex: 1; display: flex; flex-direction: column; gap: 8px; border-top: 4px solid var(--brand-dark); padding-top: 24px; }
+.stat-n { font-size: 120px; font-weight: 700; line-height: 1; color: var(--on-dark); font-variant-numeric: tabular-nums; }
+.stat-l { font-size: 28px; line-height: 1.35; color: var(--on-dark-muted); }
+
+/* Listas numeradas de pasos */
+.steps-list { display: flex; flex-direction: column; gap: 20px; }
+.row { display: flex; gap: 24px; align-items: flex-start; }
+.n {
+  width: 56px; height: 56px; border-radius: 28px; flex: none;
+  background: var(--eye-purple); color: var(--on-purple);
+  font-size: 28px; font-weight: 700; text-align: center; line-height: 56px;
+}
+.dark .n { background: var(--brand-dark); color: var(--navy-900); }
+.row-t { font-size: 30px; line-height: 1.4; }
+
+/* Codigo en una linea */
+.code {
+  font-family: "Courier New", monospace; font-size: 30px; padding: 16px 24px; border-radius: 8px;
+  background: var(--navy-800); color: var(--on-dark); align-self: flex-start;
+}
+
+/* Llegada */
+.rise { animation: rise 600ms ease-out both; }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }

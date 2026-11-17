@@ -1,0 +1,18 @@
+<section id="ocb">
+<div class="head">
+<p class="eyebrow">Order Confirmation Board</p>
+<h2>Orders come in and leave on their own</h2>
+</div>
+<div class="flow light">
+<div class="step"><p class="step-e">OrderPlaced</p><p class="step-t">Preparing</p><p class="step-s">Shows up on the board.</p></div>
+<x-connector></x-connector>
+<div class="step"><p class="step-e">OrderClosed</p><p class="step-t">Ready</p><p class="step-s">The estimated time arrived.</p></div>
+<x-connector></x-connector>
+<div class="step"><p class="step-e">OrderPickedUp</p><p class="step-t">Picked up</p><p class="step-s">Stays on screen 2 more min.</p></div>
+<x-connector></x-connector>
+<div class="step"><p class="step-e">Sweep</p><p class="step-t">Gone</p><p class="step-s">Never longer than 120 min.</p></div>
+</div>
+<p class="small muted" style="max-width:1500px">State never goes backwards: an old event that arrives late is ignored. Cancelled or replaced orders leave right away. No customer personal data.</p>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>One detail to watch: “Ready” in Olo doesn’t mean the kitchen is done. Olo sends OrderClosed when the estimated time is reached; it doesn’t document any other signal. If a store doesn’t use Expo, OrderPickedUp never arrives, so there’s a setting to hide the order a few minutes after OrderClosed. Scheduled orders wait and show up when they fire. And when a guest modifies an order, Olo doesn’t cancel the old one: it sends a new one that replaces it, and we take the original off.</aside>
+</section>

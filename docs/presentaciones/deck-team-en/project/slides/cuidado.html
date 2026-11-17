@@ -1,0 +1,16 @@
+<section id="cuidado">
+<div class="head">
+<p class="eyebrow">What to watch</p>
+<h2>Four things before production</h2>
+</div>
+<div class="cards">
+<div class="card"><p class="tag hot">Pending</p><h3>Test with real MySQL</h3><p class="small muted">Tests run on an in-memory database. There’s a test script ready for an empty database.</p></div>
+<div class="card"><p class="tag">Deployment</p><h3>A volume for the receiver</h3><p class="small muted">Without persistent disk, every deploy wipes pending events. Only one copy of the receiver.</p></div>
+</div>
+<div class="cards">
+<div class="card"><p class="tag">Behavior</p><h3>“Ready” isn’t the kitchen</h3><p class="small muted">Olo marks ready at the estimated time. Stores without Expo need one extra setting.</p></div>
+<div class="card"><p class="tag">Provisional</p><h3>Vendor Export parser</h3><p class="small muted">Built without the official XSD. We’ll adjust it once Olo gives us a real export.</p></div>
+</div>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>The first one matters most: the part that writes to MySQL is written and typed, but we haven’t run it against a real database because there was no MySQL on the machine where it was built. The smoke-mysql script tests it in a couple of minutes. The volume point is for whoever deploys: the receiver stores events in a file, and if the container has no persistent disk they get lost. All of this is in the README and the runbook.</aside>
+</section>

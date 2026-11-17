@@ -1,0 +1,17 @@
+<section id="mejoras">
+<div class="head">
+<p class="eyebrow">Improvements</p>
+<h2>Several also apply to ec4toast-node</h2>
+</div>
+<table>
+<tr class="top"><th style="width:38%">Improvement</th><th style="width:44%">Problem it solves</th><th style="width:18%">Helps Toast?</th></tr>
+<tr><td>Business day in the store’s time zone</td><td>On a UTC server the day flips at 7 pm Miami time</td><td>Yes</td></tr>
+<tr><td>A single MySQL connection</td><td>Toast opens 4 pools against the same database</td><td>Yes</td></tr>
+<tr><td>No “skipped” cycles from overlap</td><td>They turn the status light yellow for no reason</td><td>Yes</td></tr>
+<tr><td>Validate config on startup</td><td>A bad value no longer runs wrong silently</td><td>Yes</td></tr>
+<tr><td>Queued lock for stock</td><td>An 86 could get lost in the middle of a check</td><td>Olo only</td></tr>
+<tr><td>Ids without rounding</td><td>The 86 landed on the wrong item</td><td>Olo only</td></tr>
+</table>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>Some of these came from things the original spec didn’t cover, and others from looking at the Toast code with fresh eyes. The first four could be ported to ec4toast-node when we have some time. The time zone one matters most: in Toast, the OCB business day is calculated with the server’s clock.</aside>
+</section>

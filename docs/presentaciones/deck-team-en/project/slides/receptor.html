@@ -1,0 +1,15 @@
+<section id="receptor" class="dark">
+<div class="head">
+<p class="eyebrow">The receiver</p>
+<h2>Answer Olo fast without losing anything</h2>
+</div>
+<div class="steps-list">
+<div class="row"><p class="n">1</p><p class="row-t">Checks Olo’s signature. If it doesn’t match, responds 401 and stores nothing.</p></div>
+<div class="row"><p class="n">2</p><p class="row-t">Drops duplicates: Olo retries up to 50 times over 24 hours.</p></div>
+<div class="row"><p class="n">3</p><p class="row-t">Writes the event to disk and only then responds 200, in under a second.</p></div>
+<div class="row"><p class="n">4</p><p class="row-t">Delivers to each store in order. If a store is down, its events wait.</p></div>
+<div class="row"><p class="n">5</p><p class="row-t">If a bulk 86 mixes stores, it splits it and each one gets its own.</p></div>
+</div>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>Order matters: if an old retry of an 86 arrived after the 68 that follows it, the item would stay out of stock by mistake. That’s why each store gets its events in a queue. If the receiver goes down, Olo retries for 24 hours, so nothing is lost as long as we bring it back in time. And meanwhile stock keeps getting corrected by the 10-minute check.</aside>
+</section>

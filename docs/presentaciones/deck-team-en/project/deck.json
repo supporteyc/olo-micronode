@@ -1,0 +1,21 @@
+{
+  "v": 5,
+  "createdOnFiles": { "v": 1, "at": "2026-11-17T16:30:00Z" },
+  "lists": "css",
+  "format": { "v": 1, "shared": ["project/deck.css"] },
+  "title": "ec4olo-node for the team",
+  "cover": "cover",
+  "order": ["cover", "porque", "comparacion", "contrato", "arquitectura", "agotados", "ocb", "receptor", "mejoras", "pruebas", "cuidado", "olo", "cierre"],
+  "sections": {
+    "s1": { "description": "What ec4olo-node is and why it exists.", "start": "cover" },
+    "s2": { "description": "How it works: architecture, 86s, OCB and the receiver.", "start": "arquitectura" },
+    "s3": { "description": "What we improved and how we tested it.", "start": "mejoras" },
+    "s4": { "description": "What to watch and what comes next with Olo.", "start": "cuidado" }
+  },
+  "faces": {
+    "montserrat": { "family": "Montserrat", "href": "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" }
+  },
+  "designSystems": [
+    { "title": "EyeCatch Networks", "namespace": "eyecatch", "artifact": "https://claude.ai/artifact/7b4G3UA9DnK6Zp4qpkazxb", "version": "1794928082-7885", "copiedAt": "2026-11-17T16:30:00Z" }
+  ]
+}

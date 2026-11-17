@@ -1,0 +1,13 @@
+<section id="contrato">
+<div class="head">
+<p class="eyebrow">What stays the same</p>
+<h2>The same per-store architecture, plus a central receiver</h2>
+</div>
+<div class="cards">
+<div class="card"><p class="tag">Tables</p><h3>Same MySQL</h3><p class="small muted">menu_items, menu_item_changes, sync_runs, ocb_orders. Only 3 new tables are added.</p></div>
+<div class="card"><p class="tag">Routes</p><h3>Same /api/toast/</h3><p class="small muted">menu-export, status, runs, menu-changes, ocb and scheduler, with the same X-EC4-Key.</p></div>
+<div class="card"><p class="tag">Rules</p><h3>Same logic</h3><p class="small muted">MENU_CONFIG, delete guard, keep stock when the source fails, Yes/No history.</p></div>
+</div>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>From the Toast repo we copied the schema, the auth, the menu filter, the delete guard and the history. There are tests that compare every response against the shape of ec4toast-node: if someone breaks the format of menu-export or status, the test fails. The Toast environment variables still work, including the name TOAST_SYNC_INTERVAL_MS.</aside>
+</section>

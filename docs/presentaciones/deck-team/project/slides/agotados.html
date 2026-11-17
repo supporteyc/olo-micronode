@@ -1,0 +1,14 @@
+<section id="agotados">
+<div class="head">
+<p class="eyebrow">Agotados: 86 y 68</p>
+<h2>Tres caminos que actualizan el stock</h2>
+</div>
+<div class="cards">
+<div class="card"><p class="tag hot">Segundos</p><h3>Webhook</h3><p class="small muted">La tienda agota algo y Olo avisa al instante. Se aplica en una sola transacción, aunque sean 300 items.</p></div>
+<div class="card"><p class="tag">Cada 10 min</p><h3>Verificación</h3><p class="small muted">Le pedimos a Olo la lista completa de agotados y corregimos lo distinto. Repara webhooks perdidos.</p></div>
+<div class="card"><p class="tag ok">Al cambiar el menú</p><h3>Importación</h3><p class="small muted">Vendor Export al arrancar, cuando Olo avisa y una vez al día. Siempre seguida de la verificación.</p></div>
+</div>
+<p class="small"><b>Regla de oro:</b> si Olo falla, no tocamos el stock. Un error nunca se lee como “nada está agotado”.</p>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>Los tres caminos pasan por un mismo candado en fila, así uno no pisa al otro. Esto fue una mejora sobre el diseño original: sin el candado, un agotado que llegaba por webhook mientras corría una verificación se podía perder. Otras dos cosas: los horarios tipo desayuno no son agotados y nunca cambian el stock. Y si la tienda se pone offline en Olo, lo mostramos en la consola, pero no marcamos todo el menú como agotado.</aside>
+</section>

@@ -1,0 +1,15 @@
+<section id="receptor" class="dark">
+<div class="head">
+<p class="eyebrow">El receptor</p>
+<h2>Responder rápido a Olo sin perder nada</h2>
+</div>
+<div class="steps-list">
+<div class="row"><p class="n">1</p><p class="row-t">Verifica la firma de Olo. Si no cierra, responde 401 y no guarda nada.</p></div>
+<div class="row"><p class="n">2</p><p class="row-t">Descarta duplicados: Olo reintenta hasta 50 veces en 24 horas.</p></div>
+<div class="row"><p class="n">3</p><p class="row-t">Guarda el evento en disco y recién ahí responde 200, en menos de un segundo.</p></div>
+<div class="row"><p class="n">4</p><p class="row-t">Entrega a cada tienda en orden. Si una tienda está caída, sus eventos esperan.</p></div>
+<div class="row"><p class="n">5</p><p class="row-t">Si un agotado masivo mezcla tiendas, lo parte y cada una recibe lo suyo.</p></div>
+</div>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>El orden importa: si un reintento viejo de un 86 llegara después del 68 que lo sigue, el item quedaría agotado por error. Por eso cada tienda recibe sus eventos en fila. Si el receptor se cae, Olo reintenta durante 24 horas, así que no se pierde nada si lo levantamos a tiempo. Y mientras tanto el stock se sigue corrigiendo con la verificación de cada 10 minutos.</aside>
+</section>

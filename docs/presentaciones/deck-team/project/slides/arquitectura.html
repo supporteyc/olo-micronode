@@ -1,0 +1,18 @@
+<section id="arquitectura" class="dark">
+<div class="head">
+<p class="eyebrow">Arquitectura</p>
+<h2>Una pieza nueva: el receptor central</h2>
+</div>
+<div class="flow" style="margin-top:24px">
+<div class="node"><p class="node-t">Olo</p><p class="node-s">Manda webhooks: agotados, órdenes, cambios de menú.</p></div>
+<x-connector></x-connector>
+<div class="node main"><p class="node-t">ec4olo-hook</p><p class="node-s">Uno solo. Verifica la firma, guarda y reparte.</p></div>
+<x-connector></x-connector>
+<div class="node main"><p class="node-t">ec4olo-node</p><p class="node-s">Uno por tienda, con su MySQL. Consulta a Olo cada tanto.</p></div>
+<x-connector></x-connector>
+<div class="node"><p class="node-t">OnSign y consola</p><p class="node-s">Leen igual que hoy, por /api/toast/.</p></div>
+</div>
+<p class="small muted" style="max-width:1400px">¿Por qué el receptor? Olo permite una sola URL de webhook por brand, no una por tienda. El receptor la recibe y le entrega a cada tienda lo suyo.</p>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>De izquierda a derecha: Olo manda eventos al receptor. El receptor es delgado, sin lógica de negocio: verifica que el evento venga de Olo, lo guarda en disco y recién ahí responde, y después se lo pasa a la tienda correcta. Cada tienda corre su ec4olo-node con su base, que además consulta a Olo cada 10 minutos para verificar los agotados. OnSign y la consola leen de la tienda exactamente como hoy.</aside>
+</section>

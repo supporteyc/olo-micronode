@@ -1,0 +1,18 @@
+<section id="ocb">
+<div class="head">
+<p class="eyebrow">Order Confirmation Board</p>
+<h2>Las órdenes llegan solas y salen solas</h2>
+</div>
+<div class="flow light">
+<div class="step"><p class="step-e">OrderPlaced</p><p class="step-t">En preparación</p><p class="step-s">Aparece en el board.</p></div>
+<x-connector></x-connector>
+<div class="step"><p class="step-e">OrderClosed</p><p class="step-t">Lista</p><p class="step-s">Llegó la hora estimada.</p></div>
+<x-connector></x-connector>
+<div class="step"><p class="step-e">OrderPickedUp</p><p class="step-t">Recogida</p><p class="step-s">Sigue 2 min en pantalla.</p></div>
+<x-connector></x-connector>
+<div class="step"><p class="step-e">Barrido</p><p class="step-t">Fuera</p><p class="step-s">Nunca más de 120 min.</p></div>
+</div>
+<p class="small muted" style="max-width:1500px">El estado nunca retrocede: un evento viejo que llega tarde se ignora. Cancelada o reemplazada sale de inmediato. Sin datos personales del cliente.</p>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>Ojo con un detalle: “Lista” en Olo no significa que la cocina terminó. Olo manda OrderClosed cuando se cumple la hora estimada; no documenta otra señal. Si una tienda no usa Expo, nunca llega OrderPickedUp, así que hay una configuración para ocultar la orden unos minutos después de OrderClosed. Las órdenes programadas esperan y aparecen cuando se disparan. Y cuando un cliente modifica una orden, Olo no cancela la vieja: manda una nueva que la reemplaza, y nosotros sacamos la original.</aside>
+</section>

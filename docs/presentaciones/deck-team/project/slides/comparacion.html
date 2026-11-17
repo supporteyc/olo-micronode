@@ -1,0 +1,17 @@
+<section id="comparacion">
+<div class="head">
+<p class="eyebrow">Toast vs Olo</p>
+<h2>Lo que cambia es cómo llega la información</h2>
+</div>
+<table>
+<tr class="top"><th style="width:24%">Tema</th><th style="width:36%">ec4toast-node</th><th style="width:40%">ec4olo-node</th></tr>
+<tr><td>Cómo llega</td><td>Polling cada 78 s</td><td>Webhooks + verificación periódica</td></tr>
+<tr><td>Menú</td><td>menus/v2 en cada ciclo</td><td>Vendor Export (XML en un zip)</td></tr>
+<tr><td>Agotados</td><td>Inventario cada 78 s</td><td>Webhook en segundos + lista de 86 cada 10 min</td></tr>
+<tr><td>OCB</td><td>El GET le pide las órdenes a Toast</td><td>Los webhooks escriben, el GET solo lee</td></tr>
+<tr><td>Procesos</td><td>1 por tienda</td><td>1 por tienda + 1 receptor central</td></tr>
+<tr><td>Ids</td><td>guids de texto</td><td>Enteros de 17 dígitos, siempre como texto</td></tr>
+</table>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>La diferencia de fondo: Olo no permite consultar el menú en vivo para guardarlo. Entonces pasamos de preguntar cada 78 segundos a escuchar eventos y verificar cada tanto. Resultado práctico: un agotado se ve en segundos, no en hasta 78 segundos. Ojo con los ids: Olo usa números tan grandes que JavaScript los redondea, por eso los tratamos siempre como texto.</aside>
+</section>

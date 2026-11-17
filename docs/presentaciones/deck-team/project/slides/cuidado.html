@@ -1,0 +1,16 @@
+<section id="cuidado">
+<div class="head">
+<p class="eyebrow">Lo que hay que cuidar</p>
+<h2>Cuatro cosas antes de producción</h2>
+</div>
+<div class="cards">
+<div class="card"><p class="tag hot">Pendiente</p><h3>Probar con MySQL real</h3><p class="small muted">Los tests corren con una base en memoria. Hay un script de prueba listo para una base vacía.</p></div>
+<div class="card"><p class="tag">Despliegue</p><h3>Volumen para el receptor</h3><p class="small muted">Sin disco persistente, cada deploy borra los eventos pendientes. Una sola copia del receptor.</p></div>
+</div>
+<div class="cards">
+<div class="card"><p class="tag">Comportamiento</p><h3>“Lista” no es cocina</h3><p class="small muted">Olo marca lista a la hora estimada. Tiendas sin Expo necesitan una config extra.</p></div>
+<div class="card"><p class="tag">Provisional</p><h3>Parser del Vendor Export</h3><p class="small muted">Armado sin el XSD oficial. Se ajusta cuando Olo nos pase un export real.</p></div>
+</div>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>La primera es la más importante: la parte que escribe en MySQL está escrita y tipada, pero no la corrimos contra una base real porque no había MySQL en la máquina donde se armó. El script smoke-mysql la prueba en un par de minutos. Lo del volumen es para quien despliegue: el receptor guarda los eventos en un archivo, y si el contenedor no tiene disco persistente se pierden. Todo esto está en el README y en el runbook.</aside>
+</section>

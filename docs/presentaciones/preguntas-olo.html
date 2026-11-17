@@ -1,0 +1,413 @@
+<title>Olo Integration Questions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one reading column; a sticky toolbar with progress, language and copy; sections as numbered groups of question rows. */
+:root {
+  --surface: #ffffff;
+  --surface-raised: #f0f2fe;
+  --text: #262626;
+  --text-muted: #666666;
+  --border: #d9dbe8;
+  --brand: #80267e;
+  --on-brand: #ffffff;
+  --accent: #ff6229;
+  --on-accent: #161426;
+  --teal: #2f7d74;
+  --font: Montserrat, Arial, sans-serif;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --surface: #161426; --surface-raised: #252141; --text: #ffffff; --text-muted: #a5a5a5;
+    --border: #35305e; --brand: #c58bbf; --on-brand: #161426; --accent: #ff6229; --on-accent: #161426;
+    --teal: #6cc3b9; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --surface: #161426; --surface-raised: #252141; --text: #ffffff; --text-muted: #a5a5a5;
+  --border: #35305e; --brand: #c58bbf; --on-brand: #161426; --accent: #ff6229; --on-accent: #161426;
+  --teal: #6cc3b9; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--surface); color: var(--text);
+  font-family: var(--font); font-size: 15px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 10; background: var(--surface);
+}
+.wrap { max-width: 860px; margin: 0 auto; padding-block: 40px 64px; }
+
+header { display: grid; gap: 12px; margin-bottom: 28px; }
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); }
+h1 { font-size: clamp(28px, 5vw, 38px); line-height: 1.12; margin: 0; font-weight: 700; text-wrap: balance; }
+.lede { color: var(--text-muted); max-width: 64ch; margin: 0; }
+.context {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;
+  margin-top: 8px; padding: 0; list-style: none;
+}
+.context li { background: var(--surface-raised); border-radius: var(--radius-md); padding: 12px 14px; font-size: 13px; }
+.context b { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); font-weight: 600; margin-bottom: 2px; }
+
+.toolbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px;
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding-block: 12px; margin-bottom: 8px;
+}
+.progress { display: flex; align-items: center; gap: 10px; flex: 1 1 220px; min-width: 0; font-size: 13px; font-variant-numeric: tabular-nums; }
+.bar { flex: 1; height: 6px; border-radius: 99px; background: var(--surface-raised); overflow: hidden; }
+.bar span { display: block; height: 100%; width: 0; background: var(--teal); transition: width .3s; }
+.btns { display: flex; gap: 8px; flex-wrap: wrap; }
+button {
+  font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+  border-radius: var(--radius-md); padding: 8px 14px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text);
+}
+button.primary { background: var(--brand); color: var(--on-brand); border-color: var(--brand); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+.seg button { border: 0; border-radius: 0; padding: 8px 12px; }
+.seg button[aria-pressed="true"] { background: var(--surface-raised); color: var(--brand); }
+.toast { font-size: 12px; color: var(--teal); min-height: 1em; }
+
+section { margin-top: 36px; }
+.sec-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+h2 { font-size: 20px; margin: 0; font-weight: 700; }
+.chip {
+  font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: var(--radius-sm);
+}
+.chip.block { background: var(--accent); color: var(--on-accent); }
+.chip.high { background: var(--brand); color: var(--on-brand); }
+.chip.normal { background: var(--surface-raised); color: var(--text-muted); }
+.sec-note { color: var(--text-muted); font-size: 13px; margin: 0 0 8px; max-width: 64ch; }
+
+ol.qs { list-style: none; margin: 0; padding: 0; counter-reset: q; }
+ol.qs li { border-top: 1px solid var(--border); padding-block: 16px; display: grid; grid-template-columns: 28px 1fr; gap: 12px; }
+ol.qs input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--teal); cursor: pointer; }
+.q { min-width: 0; }
+.q label { font-weight: 600; cursor: pointer; display: block; }
+.q .num { color: var(--brand); font-variant-numeric: tabular-nums; margin-right: 6px; }
+.meta { display: grid; gap: 4px; margin-top: 6px; font-size: 13px; color: var(--text-muted); }
+.meta b { color: var(--text); font-weight: 600; }
+code { font-family: ui-monospace, Consolas, monospace; font-size: .9em; background: var(--surface-raised); padding: 1px 5px; border-radius: var(--radius-sm); overflow-wrap: anywhere; }
+li.done label { color: var(--text-muted); text-decoration: line-through; text-decoration-color: var(--teal); }
+
+footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+@media (prefers-reduced-motion: reduce) { .bar span { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow" id="eyebrow">EyeCatch Networks · Olo integration</div>
+    <h1 id="h1"></h1>
+    <p class="lede" id="lede"></p>
+    <ul class="context" id="context"></ul>
+  </header>
+
+  <div class="toolbar">
+    <div class="progress">
+      <span id="count"></span>
+      <div class="bar" aria-hidden="true"><span id="fill"></span></div>
+    </div>
+    <div class="btns">
+      <div class="seg" role="group" aria-label="Language">
+        <button type="button" id="lang-en" aria-pressed="true">EN</button>
+        <button type="button" id="lang-es" aria-pressed="false">ES</button>
+      </div>
+      <button type="button" class="primary" id="copy"></button>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+  </div>
+
+  <main id="sections"></main>
+
+  <footer>
+    <span>www.eyecatch.co</span>
+    <span id="foot"></span>
+  </footer>
+</div>
+
+<script>
+const T = {
+  en: {
+    h1: "Questions for Olo",
+    lede: "We built our Olo integration against a mock of the Ordering API and webhooks. To go live we need the access below and a few confirmations. Each question says why we ask and what we assume today, so a short yes or no is often enough.",
+    context: [
+      ["What we build", "Digital menu boards with live sold-out status, and an order status board for pickup."],
+      ["What we read", "Vendor Export, eightysixeditems and webhooks. Read only: no baskets, no payments."],
+      ["Stage", "A new integration we want to test first in Sandbox, with one test restaurant."]
+    ],
+    count: (a, n) => `${a} of ${n} answered`,
+    copy: "Copy as text",
+    copied: "Copied. Paste it into an email or doc.",
+    copyFail: "Copy blocked by the browser. Select the text and copy it by hand.",
+    why: "Why we ask:",
+    assume: "Today we assume:",
+    foot: "Check a question once it is answered. Checks stay in this browser only.",
+    prio: { block: "Blocks go-live", high: "High", normal: "Normal" }
+  },
+  es: {
+    h1: "Preguntas para Olo",
+    lede: "Construimos la integracion con Olo contra un mock de la Ordering API y de los webhooks. Para salir a produccion necesitamos el acceso de abajo y algunas confirmaciones. Cada pregunta dice por que la hacemos y que asumimos hoy, asi que muchas se responden con un si o un no.",
+    context: [
+      ["Que construimos", "Menu boards digitales con agotados en vivo y un tablero de estado de ordenes para pickup."],
+      ["Que leemos", "Vendor Export, eightysixeditems y webhooks. Solo lectura: sin canastas ni pagos."],
+      ["Etapa", "Una integracion nueva que queremos probar primero en Sandbox, con un restaurante de prueba."]
+    ],
+    count: (a, n) => `${a} de ${n} respondidas`,
+    copy: "Copiar como texto",
+    copied: "Copiado. Pegalo en un correo o documento.",
+    copyFail: "El navegador bloqueo la copia. Selecciona el texto y copialo a mano.",
+    why: "Por que preguntamos:",
+    assume: "Hoy asumimos:",
+    foot: "Marca cada pregunta cuando quede respondida. Las marcas se guardan solo en este navegador.",
+    prio: { block: "Bloquea la salida", high: "Alta", normal: "Normal" }
+  }
+};
+
+// Each question: id, then en/es with q (question), why, assume (optional).
+const SECTIONS = [
+  { id: "access", prio: "block",
+    title: { en: "Access and credentials", es: "Acceso y credenciales" },
+    note: { en: "Nothing can be tested against Olo until these are in place.", es: "Nada se puede probar contra Olo hasta tener esto." },
+    qs: [
+      { id: "a1",
+        en: { q: "Can we get Sandbox credentials (ClientId and Client Secret) for the ThirdParty platform with Signature Authorization?", why: "The Vendor Export endpoints require Signature Authorization." },
+        es: { q: "¿Nos pueden dar credenciales de Sandbox (ClientId y Client Secret) para la plataforma ThirdParty con Signature Authorization?", why: "Los endpoints del Vendor Export exigen Signature Authorization." } },
+      { id: "a2",
+        en: { q: "Can that ClientId get the special permission for GET /restaurants/{restaurant_id}/eightysixeditems?", why: "Our sold-out sync depends on it. Without it, the screens can only learn about 86s from webhooks.", assume: "The call returns 403 until the permission is granted." },
+        es: { q: "¿Pueden darle a ese ClientId el permiso especial de GET /restaurants/{restaurant_id}/eightysixeditems?", why: "Nuestra sincronizacion de agotados depende de el. Sin el, las pantallas solo se enteran de los 86 por webhook.", assume: "La llamada devuelve 403 hasta que se otorgue el permiso." } },
+      { id: "a3",
+        en: { q: "Which restaurant id (VendorId) should we use for the Sandbox test restaurant, and how do we get the VendorId of each restaurant we connect later?", why: "Each store service is bound to one VendorId, and webhooks are routed by it." },
+        es: { q: "¿Que id de restaurante (VendorId) usamos para el restaurante de prueba del Sandbox, y como obtenemos el VendorId de cada restaurante que conectemos despues?", why: "Cada servicio de tienda se ata a un VendorId, y los webhooks se reparten por ese id." } },
+      { id: "a4",
+        en: { q: "When we connect several restaurants, will they usually share one brand in Olo or be separate brands? Who registers our webhook Destination URL and shares the secret?", why: "Olo allows one webhook per brand and environment. One brand means one URL and one secret; several brands mean one of each per brand.", assume: "Our receiver supports both setups." },
+        es: { q: "Cuando conectemos varios restaurantes, ¿normalmente van a compartir un brand en Olo o van a ser brands distintos? ¿Quien registra nuestra Destination URL de webhooks y nos pasa el secreto?", why: "Olo permite un webhook por brand y ambiente. Un brand es una URL y un secreto; varios brands, uno de cada por brand.", assume: "Nuestro receptor soporta las dos opciones." } },
+      { id: "a5",
+        en: { q: "Does the Sandbox test restaurant let us 86 items and place test orders, so that real webhooks fire?", why: "We want to validate the full flow end to end before production." },
+        es: { q: "¿El restaurante de prueba del Sandbox nos deja 86ear items y hacer ordenes de prueba, para que se disparen webhooks reales?", why: "Queremos validar el flujo completo de punta a punta antes de produccion." } },
+      { id: "a6",
+        en: { q: "Is there a certification or go-live checklist for a read-only integration like ours?", why: "So we can plan the production rollout." },
+        es: { q: "¿Hay una certificacion o checklist de salida a produccion para una integracion de solo lectura como la nuestra?", why: "Para planificar la salida a produccion." } }
+    ] },
+
+  { id: "stock", prio: "high",
+    title: { en: "Sold-out items (86 / 68)", es: "Items agotados (86 / 68)" },
+    note: { en: "Live sold-out status is the main feature of the menu boards.", es: "El estado de agotados en vivo es la funcion principal de los menu boards." },
+    qs: [
+      { id: "s1",
+        en: { q: "Does eightysixeditems always return every product and choice that is currently 86'd, in one response, with no paging?", why: "We treat anything not in the list as available. If the list can be partial, items would come back on screen by mistake.", assume: "The list is complete." },
+        es: { q: "¿eightysixeditems devuelve siempre todos los productos y opciones que estan 86 ahora, en una sola respuesta, sin paginar?", why: "Tratamos todo lo que no esta en la lista como disponible. Si la lista puede venir parcial, volverian items a pantalla por error.", assume: "La lista es completa." } },
+      { id: "s2",
+        en: { q: "How often may we call eightysixeditems, and what rate limits apply to it and to vendorexport?", why: "We call it after each Vendor Export import and on a timer to repair missed webhooks.", assume: "Once every 10 minutes per restaurant, plus once after each import. We back off on 429 and honor Retry-After." },
+        es: { q: "¿Cada cuanto podemos llamar a eightysixeditems, y que rate limits aplican a ese endpoint y a vendorexport?", why: "Lo llamamos despues de cada importacion del Vendor Export y con un temporizador para reparar webhooks perdidos.", assume: "Una vez cada 10 minutos por restaurante, mas una tras cada importacion. Ante 429 esperamos y respetamos Retry-After." } },
+      { id: "s3",
+        en: { q: "Are the product and option ids in the Vendor Export XML the same ids returned by eightysixeditems and sent as itemEntityId in MenuItemAvailabilityChanged?", why: "We use that id as the key that joins the menu, the 86 list and the webhook.", assume: "They are the same restaurant-level ids." },
+        es: { q: "¿Los ids de producto y opcion del XML del Vendor Export son los mismos que devuelve eightysixeditems y que llegan como itemEntityId en MenuItemAvailabilityChanged?", why: "Usamos ese id como llave para unir el menu, la lista de 86 y el webhook.", assume: "Son los mismos ids a nivel restaurante." } },
+      { id: "s4",
+        en: { q: "Can one MenuItemAvailabilityChanged delivery contain items from several locations? Is there a maximum array size? What does itemExternalReference hold?", why: "A brand-wide mass 86 could mix stores. We split the array by locationId.", assume: "It can mix locations; we do not use itemExternalReference." },
+        es: { q: "¿Un mismo MenuItemAvailabilityChanged puede traer items de varias locations? ¿Hay un tamano maximo del array? ¿Que contiene itemExternalReference?", why: "Un mass 86 de todo el brand podria mezclar tiendas. Partimos el array por locationId.", assume: "Puede mezclar locations; no usamos itemExternalReference." } },
+      { id: "s5",
+        en: { q: "Do schedule-based availability rules (dayparts, start and end dates) ever trigger MenuItemAvailabilityChanged?", why: "We treat schedules as separate from sold-out and never mark an item 86 because of them.", assume: "Only manual 86 and 68 actions trigger the webhook." },
+        es: { q: "¿Las reglas de disponibilidad por horario (dayparts, fechas de inicio y fin) disparan alguna vez MenuItemAvailabilityChanged?", why: "Tratamos los horarios como algo distinto de agotado y nunca marcamos un item 86 por ellos.", assume: "Solo los 86 y 68 manuales disparan el webhook." } }
+    ] },
+
+  { id: "export", prio: "high",
+    title: { en: "Vendor Export", es: "Vendor Export" },
+    note: { en: "We import the full menu from the Vendor Export, never from live menu endpoints.", es: "Importamos el menu completo desde el Vendor Export, nunca desde los endpoints de menu en vivo." },
+    qs: [
+      { id: "e1",
+        en: { q: "Can you share the XSD for the Vendor Export, or an anonymized sample export?", why: "Our parser is built from field names in the documentation and needs the real structure.", assume: "category > product (id, chainproductid, pricing, cost) > optiongroup > option (id, chainoptionid, cost), with nested optiongroups inside options." },
+        es: { q: "¿Nos pueden pasar el XSD del Vendor Export, o un export de ejemplo anonimizado?", why: "Nuestro parser esta armado con los nombres de campo de la documentacion y necesita la estructura real.", assume: "category > product (id, chainproductid, pricing, cost) > optiongroup > option (id, chainoptionid, cost), con optiongroups anidados dentro de las opciones." } },
+      { id: "e2",
+        en: { q: "Does vendorexport/xml always answer 301 with a Location to a signed URL that serves a zip with a single XML file?", why: "We follow that redirect ourselves and do not forward the Olo Authorization header to the signed URL." },
+        es: { q: "¿vendorexport/xml responde siempre 301 con un Location a una URL firmada que entrega un zip con un solo XML?", why: "Seguimos esa redireccion a mano y no le pasamos el header Authorization de Olo a la URL firmada." } },
+      { id: "e3",
+        en: { q: "How reliable is VendorMenuExportComplete, and how often are exports generated? Is hasMenuChanges accurate for item, price and option changes?", why: "We re-import only when hasMenuChanges is true.", assume: "Plus one safety import per day at a low-traffic hour." },
+        es: { q: "¿Que tan confiable es VendorMenuExportComplete y cada cuanto se generan los exports? ¿hasMenuChanges refleja bien los cambios de items, precios y opciones?", why: "Solo reimportamos cuando hasMenuChanges es true.", assume: "Ademas hacemos una importacion de respaldo al dia en un horario tranquilo." } }
+    ] },
+
+  { id: "sign", prio: "high",
+    title: { en: "Signatures and headers", es: "Firmas y headers" },
+    note: { en: "We built both signatures from the docs and the public samples.", es: "Armamos las dos firmas a partir de la documentacion y de los samples publicos." },
+    qs: [
+      { id: "g1",
+        en: { q: "Is the X-Olo-Signature message exactly: Destination URL + LF + raw body + LF + X-Olo-Message-Id + LF + X-Olo-Timestamp, HMAC-SHA256 with the webhook secret, base64?", why: "The order is not in the docs. We took it from the public Node sample, and our code reproduces its test vector." },
+        es: { q: "¿El mensaje de X-Olo-Signature es exactamente: Destination URL + LF + body crudo + LF + X-Olo-Message-Id + LF + X-Olo-Timestamp, con HMAC-SHA256 y el secreto del webhook, en base64?", why: "El orden no esta en la documentacion. Lo tomamos del sample publico de Node, y nuestro codigo reproduce su vector de prueba." } },
+      { id: "g2",
+        en: { q: "For Signature Authorization on the Ordering API, does the signed PathAndQuery include the /v1.1/ prefix?", why: "The Postman collection includes it; the docs do not say.", assume: "It includes /v1.1/. We can switch this with a setting." },
+        es: { q: "En Signature Authorization de la Ordering API, ¿el PathAndQuery firmado incluye el prefijo /v1.1/?", why: "La coleccion Postman lo incluye; la documentacion no lo dice.", assume: "Lo incluye. Lo podemos cambiar con una configuracion." } },
+      { id: "g3",
+        en: { q: "Which headers are required for a read-only integration? What User-Agent format do you expect?", why: "We send Authorization, Date, Accept: application/json and a User-Agent.", assume: "User-Agent like EyeCatchNetworks/v1." },
+        es: { q: "¿Que headers son obligatorios para una integracion de solo lectura? ¿Que formato de User-Agent esperan?", why: "Mandamos Authorization, Date, Accept: application/json y un User-Agent.", assume: "Un User-Agent como EyeCatchNetworks/v1." } }
+    ] },
+
+  { id: "webhooks", prio: "normal",
+    title: { en: "Webhook delivery", es: "Entrega de webhooks" },
+    note: { en: "Our receiver stores each event durably, answers 200 in well under a second and then forwards it.", es: "Nuestro receptor guarda cada evento en disco, responde 200 en mucho menos de un segundo y despues lo reenvia." },
+    qs: [
+      { id: "w1",
+        en: { q: "Does a retry keep the same X-Olo-Message-Id?", why: "We deduplicate by that id. If retries get a new id, an event could apply twice." },
+        es: { q: "¿Un reintento conserva el mismo X-Olo-Message-Id?", why: "Deduplicamos por ese id. Si los reintentos traen un id nuevo, un evento se podria aplicar dos veces." } },
+      { id: "w2",
+        en: { q: "Do you retry 4xx responses other than 429? What failure rate or duration disables a subscription?", why: "We answer 401 only for a bad signature and 200 for everything else." },
+        es: { q: "¿Reintentan las respuestas 4xx distintas de 429? ¿Que tasa o duracion de fallas deshabilita una suscripcion?", why: "Respondemos 401 solo por firma invalida y 200 para todo lo demas." } },
+      { id: "w3",
+        en: { q: "Is there any ordering guarantee between events of the same order or item?", why: "We do not rely on X-Olo-Timestamp for ordering because it is send time, not event time.", assume: "No ordering guarantee." },
+        es: { q: "¿Hay alguna garantia de orden entre eventos de la misma orden o del mismo item?", why: "No usamos X-Olo-Timestamp para ordenar porque es la hora de envio, no la del evento.", assume: "No hay garantia de orden." } }
+    ] },
+
+  { id: "orders", prio: "normal",
+    title: { en: "Orders on the status board", es: "Ordenes en el tablero" },
+    note: { en: "The board shows each pickup order from placed to picked up. We store no customer data.", es: "El tablero muestra cada orden de pickup desde que se pide hasta que se recoge. No guardamos datos de clientes." },
+    qs: [
+      { id: "o1",
+        en: { q: "Which field is the order number the guest sees at pickup?", why: "That number is what the board shows.", assume: "posRef, falling back to the last 4 digits of orderIdString." },
+        es: { q: "¿Que campo es el numero de orden que ve el cliente al retirar?", why: "Ese numero es el que muestra el tablero.", assume: "posRef, y si no viene, los ultimos 4 digitos de orderIdString." } },
+      { id: "o2",
+        en: { q: "Is there any event that means the kitchen finished an order?", why: "OrderClosed fires when the estimated ready time is reached, so READY on our board means 'should be ready', not 'is ready'.", assume: "No such event; we use OrderClosed." },
+        es: { q: "¿Hay algun evento que signifique que la cocina termino una orden?", why: "OrderClosed se dispara al llegar la hora estimada, asi que READY en nuestro tablero significa 'deberia estar lista', no 'esta lista'.", assume: "No existe; usamos OrderClosed." } },
+      { id: "o3",
+        en: { q: "Is OrderPickedUp only sent by stores that use Expo? What is the usual order of OrderClosed and OrderPickedUp, and when does ScheduledOrderFired arrive for scheduled orders?", why: "Without OrderPickedUp we hide orders a fixed time after OrderClosed." },
+        es: { q: "¿OrderPickedUp solo lo mandan las tiendas que usan Expo? ¿Cual es el orden habitual de OrderClosed y OrderPickedUp, y cuando llega ScheduledOrderFired en las ordenes programadas?", why: "Sin OrderPickedUp ocultamos las ordenes un tiempo fijo despues de OrderClosed." } },
+      { id: "o4",
+        en: { q: "In replacementDetails.originalId, is the value the Order.id (uuid) or the numeric orderId?", why: "A modified order arrives as a new OrderPlaced, and we must remove the original from the board.", assume: "Either; we look up both." },
+        es: { q: "En replacementDetails.originalId, ¿el valor es el Order.id (uuid) o el orderId numerico?", why: "Una orden modificada llega como un OrderPlaced nuevo, y hay que quitar la original del tablero.", assume: "Cualquiera de los dos; buscamos por ambos." } },
+      { id: "o5",
+        en: { q: "What format do pickUpDetails.timePickedUp, timeCancelled and arrivalDetails.timeArrived use? Where is the order total, and which payments[].type and deliveryMethod values exist?", why: "We convert store-local times with storeTimeZone and show only counter pickup orders.", assume: "Local 'yyyymmdd hh:mm' like timePlaced; total in totals.total; 'instore' means pay at the store; pickup, curbside and dinein go on the board." },
+        es: { q: "¿Que formato usan pickUpDetails.timePickedUp, timeCancelled y arrivalDetails.timeArrived? ¿Donde viene el total de la orden, y que valores existen de payments[].type y deliveryMethod?", why: "Convertimos las horas locales con storeTimeZone y solo mostramos ordenes que se retiran en el mostrador.", assume: "'yyyymmdd hh:mm' local como timePlaced; el total en totals.total; 'instore' es pago en tienda; pickup, curbside y dinein van al tablero." } }
+    ] }
+];
+
+const ALL = SECTIONS.flatMap(s => s.qs.map(q => q.id));
+const KEY = 'olo-preguntas-v1';
+let lang = 'en';
+let done = new Set();
+
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) {
+      const d = JSON.parse(raw);
+      if (Array.isArray(d.done)) done = new Set(d.done.filter(id => ALL.includes(id)));
+      if (d.lang === 'es' || d.lang === 'en') lang = d.lang;
+    }
+  } catch (e) { /* storage blocked: start fresh */ }
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify({ done: [...done], lang })); } catch (e) { /* ignore */ }
+}
+
+function esc(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+// Endpoint paths, header and field names read better as code.
+function fmt(s) {
+  return esc(s).replace(/(\/?[a-z]+\/\{[a-z_]+\}\/[a-z]+|vendorexport\/xml|X-Olo-[A-Za-z-]+|\b(?:eightysixeditems|MenuItemAvailabilityChanged|VendorMenuExportComplete|OrderClosed|OrderPickedUp|OrderPlaced|ScheduledOrderFired|itemEntityId|itemExternalReference|hasMenuChanges|replacementDetails\.originalId|pickUpDetails\.timePickedUp|arrivalDetails\.timeArrived|timeCancelled|payments\[\]\.type|deliveryMethod|storeTimeZone|totals\.total|orderIdString|posRef|Order\.id|orderId|locationId|PathAndQuery|User-Agent|Retry-After|\/v1\.1\/)\b)/g, '<code>$1</code>');
+}
+
+function render() {
+  const t = T[lang];
+  document.documentElement.lang = lang;
+  document.getElementById('h1').textContent = t.h1;
+  document.getElementById('lede').textContent = t.lede;
+  document.getElementById('context').innerHTML = t.context.map(([k, v]) => `<li><b>${esc(k)}</b>${esc(v)}</li>`).join('');
+  document.getElementById('copy').textContent = t.copy;
+  document.getElementById('foot').textContent = t.foot;
+  document.getElementById('lang-en').setAttribute('aria-pressed', String(lang === 'en'));
+  document.getElementById('lang-es').setAttribute('aria-pressed', String(lang === 'es'));
+
+  let n = 0;
+  document.getElementById('sections').innerHTML = SECTIONS.map(s => `
+    <section aria-labelledby="h-${s.id}">
+      <div class="sec-head">
+        <h2 id="h-${s.id}">${esc(s.title[lang])}</h2>
+        <span class="chip ${s.prio}">${esc(t.prio[s.prio])}</span>
+      </div>
+      <p class="sec-note">${esc(s.note[lang])}</p>
+      <ol class="qs">
+        ${s.qs.map(q => {
+          n++;
+          const c = q[lang];
+          const isDone = done.has(q.id);
+          return `<li class="${isDone ? 'done' : ''}">
+            <input type="checkbox" id="chk-${q.id}" data-id="${q.id}" ${isDone ? 'checked' : ''}>
+            <div class="q">
+              <label for="chk-${q.id}"><span class="num">${n}.</span>${fmt(c.q)}</label>
+              <div class="meta">
+                <span><b>${esc(t.why)}</b> ${fmt(c.why)}</span>
+                ${c.assume ? `<span><b>${esc(t.assume)}</b> ${fmt(c.assume)}</span>` : ''}
+              </div>
+            </div>
+          </li>`;
+        }).join('')}
+      </ol>
+    </section>`).join('');
+  updateCount();
+}
+
+function updateCount() {
+  document.getElementById('count').textContent = T[lang].count(done.size, ALL.length);
+  document.getElementById('fill').style.width = `${(done.size / ALL.length) * 100}%`;
+}
+
+function asText() {
+  const t = T[lang];
+  let n = 0;
+  const out = [t.h1, '', t.lede, ''];
+  for (const s of SECTIONS) {
+    out.push(`${s.title[lang].toUpperCase()} (${t.prio[s.prio]})`);
+    for (const q of s.qs) {
+      n++;
+      const c = q[lang];
+      out.push(`${n}. ${c.q}`);
+      out.push(`   ${t.why} ${c.why}`);
+      if (c.assume) out.push(`   ${t.assume} ${c.assume}`);
+    }
+    out.push('');
+  }
+  return out.join('\n');
+}
+
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.textContent = ''; }, 4000);
+}
+
+document.getElementById('sections').addEventListener('change', e => {
+  const id = e.target?.dataset?.id;
+  if (!id) return;
+  if (e.target.checked) done.add(id); else done.delete(id);
+  e.target.closest('li').classList.toggle('done', e.target.checked);
+  updateCount();
+  save();
+});
+document.getElementById('lang-en').addEventListener('click', () => { lang = 'en'; save(); render(); });
+document.getElementById('lang-es').addEventListener('click', () => { lang = 'es'; save(); render(); });
+document.getElementById('copy').addEventListener('click', () => {
+  const text = asText();
+  try {
+    navigator.clipboard.writeText(text).then(() => toast(T[lang].copied), () => toast(T[lang].copyFail));
+  } catch (e) {
+    toast(T[lang].copyFail);
+  }
+});
+
+load();
+render();
+</script>

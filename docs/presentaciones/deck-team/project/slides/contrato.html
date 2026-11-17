@@ -1,0 +1,13 @@
+<section id="contrato">
+<div class="head">
+<p class="eyebrow">Lo que no cambia</p>
+<h2>La misma arquitectura por tienda, más un receptor central</h2>
+</div>
+<div class="cards">
+<div class="card"><p class="tag">Tablas</p><h3>Mismo MySQL</h3><p class="small muted">menu_items, menu_item_changes, sync_runs, ocb_orders. Solo se suman 3 tablas nuevas.</p></div>
+<div class="card"><p class="tag">Rutas</p><h3>Mismo /api/toast/</h3><p class="small muted">menu-export, status, runs, menu-changes, ocb y scheduler, con la misma X-EC4-Key.</p></div>
+<div class="card"><p class="tag">Reglas</p><h3>Misma lógica</h3><p class="small muted">MENU_CONFIG, freno de borrado, preservar stock si la fuente falla, historial Yes/No.</p></div>
+</div>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>Copiamos del repo de Toast el esquema, la autenticación, el filtro de menú, el freno de borrado y el historial. Hay tests que comparan cada respuesta con la forma de ec4toast-node: si alguien rompe el formato de menu-export o de status, el test falla. Las variables de entorno de Toast siguen sirviendo, incluso el nombre TOAST_SYNC_INTERVAL_MS.</aside>
+</section>

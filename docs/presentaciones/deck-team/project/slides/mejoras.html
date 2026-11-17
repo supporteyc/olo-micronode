@@ -1,0 +1,17 @@
+<section id="mejoras">
+<div class="head">
+<p class="eyebrow">Mejoras</p>
+<h2>Varias sirven también para ec4toast-node</h2>
+</div>
+<table>
+<tr class="top"><th style="width:38%">Mejora</th><th style="width:44%">Problema que resuelve</th><th style="width:18%">¿Sirve a Toast?</th></tr>
+<tr><td>Día de negocio en la zona de la tienda</td><td>En un servidor UTC el día cambia a las 7 pm de Miami</td><td>Sí</td></tr>
+<tr><td>Una sola conexión a MySQL</td><td>Toast abre 4 pools contra la misma base</td><td>Sí</td></tr>
+<tr><td>Sin ciclos “skipped” por choque</td><td>Ponen el semáforo en amarillo sin motivo</td><td>Sí</td></tr>
+<tr><td>Validar la config al arrancar</td><td>Con un valor inválido, no corre mal en silencio</td><td>Sí</td></tr>
+<tr><td>Candado en fila para el stock</td><td>Un 86 podía perderse en plena verificación</td><td>Solo Olo</td></tr>
+<tr><td>Ids sin redondear</td><td>El 86 caía en otro item</td><td>Solo Olo</td></tr>
+</table>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>Algunas de estas mejoras salieron de cosas que el documento original no contemplaba, y otras de mirar el código de Toast con ojos nuevos. Las primeras cuatro se podrían llevar a ec4toast-node cuando tengamos un rato. La de la zona horaria es la más importante: en Toast el día de negocio del OCB se calcula con la hora del servidor.</aside>
+</section>

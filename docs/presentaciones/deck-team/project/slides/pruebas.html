@@ -1,0 +1,15 @@
+<section id="pruebas" class="dark">
+<div class="head">
+<p class="eyebrow">Cómo lo probamos</p>
+<h2>Sin cuenta de Olo, con un Olo falso</h2>
+</div>
+<div class="stats">
+<div class="stat"><p class="stat-n">144</p><p class="stat-l">tests en verde, en TypeScript strict</p></div>
+<div class="stat"><p class="stat-n">18</p><p class="stat-l">criterios de agotados, uno por test</p></div>
+<div class="stat"><p class="stat-n">4</p><p class="stat-l">bugs encontrados y corregidos al probar</p></div>
+</div>
+<p class="small muted" style="max-width:1500px">El mock verifica la firma completa, como Olo. Probado de punta a punta: una orden aparece y sale del board, y un 86 llega a menu-export.</p>
+<p class="code">bun run dev:mock</p>
+<div class="foot"><p class="foot-t">www.eyecatch.co</p><p class="foot-n"></p></div>
+<aside>Los cuatro bugs: el receptor descartaba eventos ante un 404, que encontramos porque en mi máquina otro servidor ocupaba el puerto 8080; el status fallaba al serializar ids de la base; el primer ciclo después de importar llamaba a Olo de más; y una orden que reemplaza a otra quedaba oculta. Con un solo comando, dev:mock, levantan todo en su máquina sin credenciales ni base de datos. Si hay tiempo, demo en vivo acá.</aside>
+</section>

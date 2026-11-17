@@ -1,0 +1,20 @@
+{
+  "v": 5,
+  "createdOnFiles": { "v": 1, "at": "2026-11-17T15:45:00Z" },
+  "lists": "css",
+  "format": { "v": 1, "shared": ["project/deck.css"] },
+  "title": "Olo: dónde estamos",
+  "cover": "cover",
+  "order": ["cover", "corto", "cliente", "igual", "avance", "cuidamos", "pedimos", "decidir", "cierre"],
+  "sections": {
+    "s1": { "description": "Qué hicimos y qué gana el cliente.", "start": "cover" },
+    "s2": { "description": "En qué punto estamos y qué está cubierto.", "start": "avance" },
+    "s3": { "description": "Qué necesitamos de Olo y de nosotros.", "start": "pedimos" }
+  },
+  "faces": {
+    "montserrat": { "family": "Montserrat", "href": "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" }
+  },
+  "designSystems": [
+    { "title": "EyeCatch Networks", "namespace": "eyecatch", "artifact": "https://claude.ai/artifact/7b4G3UA9DnK6Zp4qpkazxb", "version": "1794928082-7885", "copiedAt": "2026-11-17T15:45:00Z" }
+  ]
+}

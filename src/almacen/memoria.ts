@@ -177,7 +177,11 @@ export class AlmacenMemoria implements Almacen {
         const ahora = aSegundos(new Date());
         for (const e of entradas) {
             this.s.secuencia.historial++;
-            this.s.historial.push({ id: this.s.secuencia.historial, changed_at: ahora, ...e });
+            // Mismo orden de columnas que menu_item_changes en MySQL.
+            this.s.historial.push({
+                id: this.s.secuencia.historial, pos_id: e.pos_id, item_name: e.item_name, change_type: e.change_type,
+                field: e.field, old_value: e.old_value, new_value: e.new_value, changed_at: ahora
+            });
         }
         return entradas.length;
     }
@@ -194,7 +198,7 @@ export class AlmacenMemoria implements Almacen {
 
     async guardarRun(fila: FilaRun): Promise<void> {
         this.s.secuencia.run++;
-        this.s.runs.push({ ...fila, id: this.s.secuencia.run });
+        this.s.runs.push({ id: this.s.secuencia.run, ...fila });
     }
 
     private runsOrdenados(): FilaRun[] {

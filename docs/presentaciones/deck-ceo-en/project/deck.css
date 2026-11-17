@@ -1,0 +1,105 @@
+/* EyeCatch: lavanda clara y navy, morado de marca, naranja solo para llamar la atención. */
+:root {
+  --navy-900: #161426;
+  --navy-800: #252141;
+  --lavender-50: #f0f2fe;
+  --eye-purple: #80267e;
+  --eye-teal: #5caca3;
+  --signal-orange: #ff6229;
+  --ink-900: #262626;
+  --muted: #5b5872;
+  --paper: #f7f7fc;
+  --card: #fdfdff;
+  --line: #d9dbe8;
+  --on-dark: #f3f2fa;
+  --on-dark-muted: #b9b5d6;
+  --brand-dark: #c58bbf;
+  --on-purple: #fbf7fb;
+}
+
+body { font-family: Montserrat, Arial, sans-serif; }
+
+section {
+  counter-increment: page;
+  box-sizing: border-box;
+  padding: 128px 128px 160px;
+  background: var(--paper);
+  color: var(--ink-900);
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+section.dark { background: var(--navy-900); color: var(--on-dark); }
+section.purple { background: var(--eye-purple); color: var(--on-purple); }
+
+.eyebrow { font-size: 24px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--eye-purple); }
+.dark .eyebrow { color: var(--brand-dark); }
+.purple .eyebrow { color: var(--on-purple); }
+
+.head { display: flex; flex-direction: column; gap: 16px; }
+h1 { font-size: 112px; font-weight: 700; line-height: 1.05; }
+h2 { font-size: 64px; font-weight: 700; line-height: 1.12; }
+h3 { font-size: 40px; font-weight: 700; line-height: 1.2; }
+p { font-size: 32px; line-height: 1.45; }
+.big { font-size: 80px; font-weight: 700; line-height: 1.12; }
+.lead { font-size: 40px; line-height: 1.4; }
+.muted { color: var(--muted); }
+.dark .muted { color: var(--on-dark-muted); }
+
+.foot {
+  position: absolute; left: 128px; bottom: 64px; width: 1664px;
+  display: flex; justify-content: space-between;
+}
+.foot-t { font-size: 24px; color: var(--muted); }
+.dark .foot-t, .purple .foot-t { color: var(--on-dark-muted); }
+.purple .foot-t { color: var(--on-purple); }
+.foot-n { font-size: 24px; color: var(--muted); }
+.dark .foot-n { color: var(--on-dark-muted); }
+.purple .foot-n { color: var(--on-purple); }
+.foot-n::after { content: counter(page); }
+
+/* Tarjetas con icono */
+.cards { display: flex; gap: 32px; }
+.card {
+  flex: 1; display: flex; flex-direction: column; gap: 20px;
+  background: var(--card); border: 2px solid var(--line); border-radius: 20px; padding: 48px 40px;
+}
+.dark .card { background: var(--navy-800); border-color: var(--navy-800); }
+.card x-icon { width: 56px; height: 56px; color: var(--eye-purple); }
+.dark .card x-icon { color: var(--brand-dark); }
+.card-t { font-size: 36px; font-weight: 700; line-height: 1.2; }
+.card-s { font-size: 28px; line-height: 1.45; color: var(--muted); }
+.dark .card-s { color: var(--on-dark-muted); }
+
+/* Línea de avance */
+.track { display: flex; gap: 16px; }
+.stage { flex: 1; display: flex; flex-direction: column; gap: 16px; }
+.bar { height: 12px; border-radius: 6px; background: var(--line); }
+.bar.done { background: var(--eye-teal); }
+.bar.now { background: var(--signal-orange); }
+.stage-s { font-size: 24px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+.stage-s.done { color: #2f7d74; }
+.stage-s.now { color: #c2410c; }
+.stage-t { font-size: 32px; font-weight: 700; line-height: 1.25; }
+.stage-d { font-size: 26px; line-height: 1.4; color: var(--muted); }
+
+/* Filas pregunta-respuesta */
+.qa { display: flex; flex-direction: column; }
+.qa-row { display: flex; gap: 48px; padding: 28px 0; border-top: 2px solid var(--line); }
+.qa-q { width: 640px; flex: none; font-size: 32px; font-weight: 700; line-height: 1.35; }
+.qa-a { flex: 1; font-size: 30px; line-height: 1.45; color: var(--muted); }
+
+/* Lista numerada */
+.list { display: flex; flex-direction: column; gap: 28px; }
+.row { display: flex; gap: 28px; align-items: flex-start; }
+.n {
+  width: 64px; height: 64px; border-radius: 32px; flex: none;
+  background: var(--brand-dark); color: var(--navy-900);
+  font-size: 30px; font-weight: 700; text-align: center; line-height: 64px;
+}
+.row-t { font-size: 34px; line-height: 1.4; }
+.row-s { font-size: 28px; line-height: 1.4; color: var(--on-dark-muted); }
+.row-col { display: flex; flex-direction: column; gap: 4px; }
+
+.rise { animation: rise 600ms ease-out both; }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }

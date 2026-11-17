@@ -5,7 +5,7 @@
   "format": { "v": 1, "shared": ["project/deck.css"] },
   "title": "Olo: dónde estamos",
   "cover": "cover",
-  "order": ["cover", "corto", "cliente", "igual", "avance", "cuidamos", "pedimos", "decidir", "cierre"],
+  "order": ["cover", "corto", "cliente", "avance", "cuidamos", "pedimos", "decidir", "cierre"],
   "sections": {
     "s1": { "description": "Qué hicimos y qué gana el cliente.", "start": "cover" },
     "s2": { "description": "En qué punto estamos y qué está cubierto.", "start": "avance" },

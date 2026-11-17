@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ quiet: true });
 
 /**
  * Parametros de arranque que mas de un modulo necesita leer.

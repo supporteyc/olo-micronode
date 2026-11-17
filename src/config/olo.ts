@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ quiet: true });
 
 /**
  * Configuracion de Olo y del OCB, leida y validada en un solo lugar.

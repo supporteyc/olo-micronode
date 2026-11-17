@@ -73,11 +73,4 @@ ${text.substring(0, 1500)}
             .catch(e => originalError("Fallo el envio del webhook:", e));
         }
     };
-
-    // Prisma devuelve BigInt en los ids y JSON.stringify no sabe serializarlo.
-    // Number() como en ec4toast-node: son ids autoincrementales de MySQL, lejos
-    // de 2^53. Los ids de Olo nunca pasan por aca: viven como string.
-    (BigInt.prototype as any).toJSON = function () {
-        return Number(this);
-    };
 }

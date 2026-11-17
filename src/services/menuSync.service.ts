@@ -207,6 +207,13 @@ export class MenuSyncService {
         for (const b of bajas.borradas) console.log(`↳ 🗑️ ${b.name} → ya no llega en el menú (borrado)`);
 
         const entradas = changeLogService.construirEntradas(plan.nuevas, plan.modificadas, bajas.borradas);
+        // Una fila nueva que nace agotada: el 'created' no dice que esta en 86,
+        // y el console arma la linea de tiempo del stock con los updated de
+        // in_stock. Se registra como si hubiera nacido en stock (el default de
+        // la columna) y la linea base la hubiera 86eado en el mismo ciclo.
+        for (const fila of plan.nuevas) {
+            if (!fila.in_stock) entradas.push(changeLogService.entradaStock(fila.pos_id, fila.name, true, false));
+        }
         let registradas = await changeLogService.registrar(this.almacen, entradas);
 
         // Pendientes: deltas que llegaron para items que no existian. Con linea
@@ -325,6 +332,9 @@ export class MenuSyncService {
      */
     private registrarLineaBase(ochenta: OchentaYSeis | null, corregidas: number | null) {
         const e = this.estado;
+        // Una importacion con linea base cuenta como intento de reconciliacion:
+        // sin esto el primer tick despues de importar volvia a llamar a Olo.
+        e.lastReconcileAttemptAt = this.ahora();
         e.lastReconcileOk = ochenta !== null;
         if (!ochenta) {
             e.inventoryGuids = null;

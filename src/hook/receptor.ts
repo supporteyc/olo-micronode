@@ -91,7 +91,7 @@ export function crearReceptor(
         entregas: { ok: 0, fallos: 0, descartes: 0 }
     };
     let worker: ReturnType<typeof setInterval> | null = null;
-    let entregando = false;
+    let enCurso: Promise<number> | null = null;
     let firmasInvalidasSeguidas = 0;
 
     function brandsCandidatos(path: string): BrandHook[] {
@@ -189,44 +189,50 @@ export function crearReceptor(
         return Response.json({ ok: true });
     }
 
+    /**
+     * Una sola pasada a la vez (dos pasadas en paralelo entregarian dos veces
+     * la misma cabeza). Quien llega con una pasada en vuelo la espera y despues
+     * hace la suya: si solo volviera, lo que se encolo mientras tanto quedaria
+     * esperando al proximo tick del worker.
+     */
     async function entregarPendientes(): Promise<number> {
-        if (entregando) return 0;
-        entregando = true;
-        try {
-            let total = 0;
-            for (;;) {
-                const lote = outbox.siguientes(reloj());
-                if (lote.length === 0) return total;
-                // Tiendas en paralelo; dentro de cada tienda, de a uno y en orden.
-                await Promise.all(lote.map(async p => {
-                    const ruta = cfg.rutas.get(p.routingKey);
-                    if (!ruta) {
-                        outbox.descartar(p.id, 'ruta eliminada de la configuracion', reloj());
-                        metricas.entregas.descartes++;
-                        return;
-                    }
-                    const r = await forwarder.entregar(ruta, p);
-                    if (r.ok) {
-                        outbox.marcarEntregado(p.id, reloj());
-                        metricas.entregas.ok++;
-                    } else if (!r.reintentable) {
-                        outbox.descartar(p.id, r.error ?? `HTTP ${r.status}`, reloj());
-                        metricas.entregas.descartes++;
-                        console.error(`❌ ${p.eventType} ${p.messageId} descartado por ${ruta.storeId}: ${r.error}`);
-                    } else {
-                        outbox.marcarFallo(p.id, r.error ?? 'error', reloj() + backoff(p.attempts));
-                        metricas.entregas.fallos++;
-                        const intentos = p.attempts + 1;
-                        const log = intentos === cfg.alertarTrasIntentos ? console.error : console.warn;
-                        log(`⚠️ Entrega a ${ruta.storeId} fallo (intento ${intentos}): ${r.error}`);
-                    }
-                }));
-                total += lote.length;
-                // Si todo lo que habia fallo, se sale: el backoff decide cuando volver.
-                if (outbox.siguientes(reloj()).every(p => lote.some(l => l.id === p.id))) return total;
-            }
-        } finally {
-            entregando = false;
+        while (enCurso) await enCurso;
+        enCurso = pasada().finally(() => { enCurso = null; });
+        return enCurso;
+    }
+
+    async function pasada(): Promise<number> {
+        let total = 0;
+        for (;;) {
+            const lote = outbox.siguientes(reloj());
+            if (lote.length === 0) return total;
+            // Tiendas en paralelo; dentro de cada tienda, de a uno y en orden.
+            await Promise.all(lote.map(async p => {
+                const ruta = cfg.rutas.get(p.routingKey);
+                if (!ruta) {
+                    outbox.descartar(p.id, 'ruta eliminada de la configuracion', reloj());
+                    metricas.entregas.descartes++;
+                    return;
+                }
+                const r = await forwarder.entregar(ruta, p);
+                if (r.ok) {
+                    outbox.marcarEntregado(p.id, reloj());
+                    metricas.entregas.ok++;
+                } else if (!r.reintentable) {
+                    outbox.descartar(p.id, r.error ?? `HTTP ${r.status}`, reloj());
+                    metricas.entregas.descartes++;
+                    console.error(`❌ ${p.eventType} ${p.messageId} descartado por ${ruta.storeId}: ${r.error}`);
+                } else {
+                    outbox.marcarFallo(p.id, r.error ?? 'error', reloj() + backoff(p.attempts));
+                    metricas.entregas.fallos++;
+                    const intentos = p.attempts + 1;
+                    const log = intentos === cfg.alertarTrasIntentos ? console.error : console.warn;
+                    log(`⚠️ Entrega a ${ruta.storeId} fallo (intento ${intentos}): ${r.error}`);
+                }
+            }));
+            total += lote.length;
+            // Si todo lo que habia fallo, se sale: el backoff decide cuando volver.
+            if (outbox.siguientes(reloj()).every(p => lote.some(l => l.id === p.id))) return total;
         }
     }
 

@@ -151,7 +151,9 @@ export function calcularTransicion(
     e.pos_ref = (order?.posRef ? String(order.posRef) : e.pos_ref)?.substring(0, 64) ?? null;
     e.time_wanted = horaDelPayload(order?.timeWanted, tz) ?? e.time_wanted;
 
-    if (previo && RANGO[previo.state as EstadoInterno] === 3) {
+    // Se mira el rango guardado y no RANGO[state]: un estado recien creado (el
+    // de la orden nueva en un reemplazo) es HIDDEN con rango -1, y no es terminal.
+    if (previo && previo.state_rank >= 3) {
         return { estado: e, fila: { accion: 'nada' }, nota: `${tipo} ignorado: la orden ya esta en ${previo.state}` };
     }
 
@@ -328,7 +330,7 @@ export class OcbService {
                 const vencidaPorTtl = e.expire_at !== null && e.expire_at <= ahora && !(e.hide_at && e.hide_at <= ahora);
                 const actualizado: EstadoOcbOlo = {
                     ...e,
-                    state: RANGO[e.state as EstadoInterno] === 3 ? e.state : (vencidaPorTtl ? 'EXPIRED' : 'HIDDEN'),
+                    state: e.state_rank >= 3 ? e.state : (vencidaPorTtl ? 'EXPIRED' : 'HIDDEN'),
                     state_rank: 3,
                     hide_at: null,
                     expire_at: null,

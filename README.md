@@ -295,7 +295,7 @@ Lista completa en la seccion 13.
 - [ ] El **XSD del Vendor Export** o un export de ejemplo.
 - [ ] **Rate limits** y frecuencia permitida para `eightysixeditems` y `vendorexport`.
 - [ ] Confirmar si la **lista de `eightysixeditems` es completa** (todos los agotados, sin paginar).
-- [ ] Si las 4 tiendas son **un brand o varios** (cambia cuantas URLs y secretos de webhook hay).
+- [ ] Si los restaurantes que conectemos van a compartir **un brand o ser brands distintos** (cambia cuantas URLs y secretos de webhook hay).
 - [ ] Que campo ve el cliente como **numero de orden** (`posRef` u otro).
 - [ ] Si un reintento de webhook **conserva el `X-Olo-Message-Id`**.
 

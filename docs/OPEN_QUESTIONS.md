@@ -29,7 +29,7 @@ Ver docs/VALIDATION_CHECKLIST.md.
 
 | # | Pregunta | Como se cubre hoy |
 | --- | --- | --- |
-| 1 | ¿Las 4 tiendas son un brand en Olo (un webhook, un secreto) o varios? | El receptor soporta los dos (`OLO_WEBHOOK_*` u `OLO_HOOK_BRANDS`) |
+| 1 | Los restaurantes que se conecten, ¿comparten un brand en Olo (un webhook, un secreto) o son brands distintos? | El receptor soporta los dos (`OLO_WEBHOOK_*` u `OLO_HOOK_BRANDS`) |
 | 2 | ¿Olo reintenta los 4xx distintos de 429? | Se responde 401 solo por firma invalida y 200 para todo lo demas |
 | 3 | Senal de "orden lista": Olo no la documenta | No se inventa: READY sale de `OrderClosed` (por tiempo) |
 | 4 | Precision de las horas: Olo manda minutos (`yyyymmdd hh:mm`) | Un retiro puede adelantarse hasta 59 s |

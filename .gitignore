@@ -12,3 +12,6 @@ dist/
 
 # Prompt original del proyecto (interno, no se publica)
 prompt-agente-opus-olo.md
+
+# Borradores de correo (no se publican)
+correo-*.md

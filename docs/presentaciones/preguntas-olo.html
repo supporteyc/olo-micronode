@@ -147,7 +147,7 @@ const T = {
     context: [
       ["What we build", "Digital menu boards with live sold-out status, and an order status board for pickup."],
       ["What we read", "Vendor Export, eightysixeditems and webhooks. Read only: no baskets, no payments."],
-      ["Stage", "A new integration we want to test first in Sandbox, with one test restaurant."]
+      ["Stage", "A new integration, built and tested against a mock. Next we want to try it in an account as close to production as possible, or in Sandbox with a test restaurant."]
     ],
     count: (a, n) => `${a} of ${n} answered`,
     copy: "Copy as text",
@@ -164,7 +164,7 @@ const T = {
     context: [
       ["Que construimos", "Menu boards digitales con agotados en vivo y un tablero de estado de ordenes para pickup."],
       ["Que leemos", "Vendor Export, eightysixeditems y webhooks. Solo lectura: sin canastas ni pagos."],
-      ["Etapa", "Una integracion nueva que queremos probar primero en Sandbox, con un restaurante de prueba."]
+      ["Etapa", "Una integracion nueva, construida y probada contra un mock. Ahora queremos probarla en una cuenta lo mas parecida a produccion posible, o en Sandbox con un restaurante de prueba."]
     ],
     count: (a, n) => `${a} de ${n} respondidas`,
     copy: "Copiar como texto",
@@ -262,8 +262,8 @@ const SECTIONS = [
         en: { q: "Does a retry keep the same X-Olo-Message-Id?", why: "We deduplicate by that id. If retries get a new id, an event could apply twice." },
         es: { q: "¿Un reintento conserva el mismo X-Olo-Message-Id?", why: "Deduplicamos por ese id. Si los reintentos traen un id nuevo, un evento se podria aplicar dos veces." } },
       { id: "w2",
-        en: { q: "Do you retry 4xx responses other than 429? What failure rate or duration disables a subscription?", why: "We answer 401 only for a bad signature and 200 for everything else." },
-        es: { q: "¿Reintentan las respuestas 4xx distintas de 429? ¿Que tasa o duracion de fallas deshabilita una suscripcion?", why: "Respondemos 401 solo por firma invalida y 200 para todo lo demas." } },
+        en: { q: "Do you retry 4xx responses other than 429? What failure rate or duration disables a subscription?", why: "We answer 401 only for a bad signature, 500 only if we could not store the event (so you retry it), and 200 for everything else, even events we ignore." },
+        es: { q: "¿Reintentan las respuestas 4xx distintas de 429? ¿Que tasa o duracion de fallas deshabilita una suscripcion?", why: "Respondemos 401 solo por firma invalida, 500 solo si no pudimos guardar el evento (para que lo reintenten) y 200 para todo lo demas, incluso eventos que ignoramos." } },
       { id: "w3",
         en: { q: "Is there any ordering guarantee between events of the same order or item?", why: "We do not rely on X-Olo-Timestamp for ordering because it is send time, not event time.", assume: "No ordering guarantee." },
         es: { q: "¿Hay alguna garantia de orden entre eventos de la misma orden o del mismo item?", why: "No usamos X-Olo-Timestamp para ordenar porque es la hora de envio, no la del evento.", assume: "No hay garantia de orden." } }
